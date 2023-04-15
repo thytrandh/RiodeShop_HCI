@@ -1,0 +1,56 @@
+
+@import"media";
+
+$cols: 12;
+$gutter: 16px; //khoang cac giua cac cot
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+
+    //tat ca nhung class bat dau bang col
+    [class^="col-"]{
+        padding: $gutter / 2 ;
+    }
+    
+    @include xs{
+        @for $i from 1 through $cols {
+            .col-xs-#{$i}{
+                width: (100% / $cols) *$i;
+            }
+        }
+    }
+    
+    @include sm{
+        @for $i from 1 through $cols {
+            .col-sm-#{$i}{
+                width: (100% / $cols) *$i;
+            }
+        }
+    }
+
+    @include md{
+        @for $i from 1 through $cols {
+            .col-md-#{$i}{
+                width: (100% / $cols) *$i;
+            }
+        }
+    }
+    
+    @include lg{   
+        @for $i from 1 through $cols {
+            .col-lg-#{$i}{
+                width: (100% / $cols) *$i;
+            }
+        }
+    }
+
+    @include xl{
+        @for $i from 1 through $cols {
+            .col-xl-#{$i}{
+                width: (100% / $cols) *$i;
+            }
+        }
+    }
+   
+}
