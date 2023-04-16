@@ -6,7 +6,7 @@ import { LOGIN_PAGE } from "../../../settings/constant";
 
 const Header = () => {
   return (
-    <div class="slider-header container">
+    <div class="slider-header">
       <div className="left">
         <Logo />
         <MenuNavigate />
@@ -25,7 +25,7 @@ const Header = () => {
           </div>
           <div className="box">
             <div className="division mr-4"></div>
-            <div className="item-cart mr-4">
+            <div className="item-cart">
               <div className="content mr-3">
                 <p className="title mb-0">Shopping Cart:</p>
                 <h5 className="mb-0 total">$0.00</h5>

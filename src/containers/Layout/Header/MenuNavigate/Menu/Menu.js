@@ -21,7 +21,7 @@ const Menu = () => {
             <Link to={CATEGORIES_PAGE} replace={false}>
               <p className="mb-0">CATEGORIES</p>
             </Link>
-            <i class="fa-light fa-chevron-down"></i>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
           <div className="box-dropdown width-13">
             <div className="row-dropdown">
@@ -57,7 +57,7 @@ const Menu = () => {
             <Link to={PRODUCTS_PAGE} replace={false}>
               <p className="mb-0">PRODUCTS</p>
             </Link>
-            <i class="fa-light fa-chevron-down"></i>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
           <div className="box-dropdown width-48">
             <div className="row-dropdown">
