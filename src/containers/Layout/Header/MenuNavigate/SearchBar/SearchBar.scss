@@ -1,0 +1,73 @@
+.searchbar {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    .btn-search {
+        position: relative;
+        transition: all 0.3s ease;
+        width: 2.2rem;
+        height: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.15rem;
+            color: var(--white);
+            transition: all 0.3s ease;
+            &:hover {
+                color: var(--primary);
+                font-weight: bold;
+            }
+        }
+        &:hover {
+            .search-box {
+                transform: translate(0, 100%);
+                visibility: visible;
+            }
+            > i {
+                color: var(--primary);
+                font-weight: bold;
+            }
+        }
+
+        .search-box {
+            position: absolute;
+            width: 21rem;
+            bottom: 0;
+            right: 0;
+            transform: translate(0, 80%);
+            visibility: hidden;
+            background-color: var(--white);
+            border-radius: 0px 0px 10px 10px;
+            text-align: left;
+            transition: all 0.3s ease;
+            form.searchbox {
+                position: relative;
+                background-color: #fff;
+                box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                padding: 1rem 1rem;
+                input.search-input {
+                    width: 100%;
+                    font-size: 0.9rem;
+                    padding: 0.9rem 1.1rem;
+                    background-color: var(--border-background);
+                }
+                i {
+                    color: #222;
+                    position: absolute;
+                    top: 50%;
+                    right: 0%;
+                    transform: translate(75%, -50%);
+                }
+            }
+            .box-result {
+                background-color: #fff;
+                box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                padding: 1rem 1rem;
+            }
+        }
+    }
+}

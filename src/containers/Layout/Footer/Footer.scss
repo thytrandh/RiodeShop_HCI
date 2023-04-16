@@ -1,0 +1,146 @@
+.footer-page {
+    padding: 30px 20px;
+    a {
+        text-decoration: none;
+    }
+    background-color: #222;
+    .footer-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0px;
+        a,
+        p {
+            color: #777;
+            font-size: 0.85rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+        h4 {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        h5 {
+            color: var(--white);
+            padding-bottom: 3px;
+            font-size: 0.85rem;
+        }
+        .footer-left {
+            width: 20%;
+        }
+        .footer-right {
+            flex-grow: 4;
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            .item {
+            }
+            .item-input {
+                width: 50%;
+                .input-group {
+                    width: 100%;
+                    padding: 20px 0px;
+                    input {
+                        width: 67%;
+                        height: 45px;
+                        padding: 10px;
+                        background: #2c2c2c;
+                        border-radius: 4px;
+                        font-size: 0.82rem;
+                        color: #fff;
+                    }
+                    .btn-subcribe {
+                        width: 31%;
+                        height: 45px;
+                        padding: 10px 0px;
+                        background: var(--primary);
+                        border-radius: 4px;
+                        position: relative;
+                        text-align: center;
+                        transition: all 0.3s ease;
+                        &:hover {
+                            background: var(--primary-dark);
+                        }
+                        p {
+                            position: absolute;
+                            width: 100%;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            color: #fff;
+                            margin-right: 2px;
+                            font-weight: 600;
+                            i {
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+                .contact {
+                    padding-top: 18px;
+                    ul {
+                        a {
+                            li {
+                                display: inline-block;
+                                margin: 0px 5px;
+                                position: relative;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                border: 2px solid #777;
+                                transition: all 0.3s ease;
+                                i {
+                                    position: absolute;
+                                    font-size: 15px;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    transition: all 0.3s ease;
+                                }
+                            }
+                            &:hover {
+                                i {
+                                    color: #fff;
+                                }
+                                .facebook {
+                                    background: #3b5998;
+                                    border-color: #3b5998;
+                                }
+                                .twitter {
+                                    background: #1da1f2;
+                                    border-color: #1da1f2;
+                                }
+                                //#3F729B
+                                .instagram {
+                                    background: #3f729b;
+                                    border-color: #3f729b;
+                                }
+                                .google {
+                                    background: #dd4b39;
+                                    border-color: #dd4b39;
+                                }
+                                .pinterest {
+                                    background: #c8232c;
+                                    border-color: #c8232c;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid rgba(#666, 0.2);
+        padding: 30px 0px 0px 0px;
+        p {
+            color: #666666;
+            font-size: 0.85rem;
+        }
+    }
+}
