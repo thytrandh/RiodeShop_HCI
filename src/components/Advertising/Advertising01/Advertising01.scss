@@ -1,0 +1,115 @@
+.collection-banner {
+    // position: absolute;
+    // bottom: 0;
+    // transform: translateY(100%);
+    a {
+        text-decoration: none;
+    }
+    [class^="item-"] {
+        //opacity: 0;
+        width: 100%;
+        height: 36vh;
+        position: relative;
+        overflow: hidden;
+        object-fit: cover;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        .content-type01 {
+            position: absolute;
+            padding: 0px 25px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            h4 {
+                color: var(--primary);
+                font-weight: 600;
+                font-size: 18px;
+            }
+            h3 {
+                color: #fff;
+                font-size: 29px;
+                font-weight: 800;
+            }
+            p {
+                margin-top: 5px;
+                color: rgba(#fff, 0.8);
+                font-size: 17px;
+            }
+            .btn-shop-now {
+                display: inline-block;
+                margin-top: 20px;
+                background-color: var(--primary);
+                padding: 11px 25px;
+                border-radius: 4px;
+                color: #fff;
+                font-size: 12px;
+                font-weight: 700;
+                transition: all 0.3s ease;
+                i {
+                    display: none;
+                    margin-left: 5px;
+                    font-size: 18px;
+                    display: inline-block;
+                }
+                &:hover {
+                    background: var(--primary-dark);
+                }
+            }
+        }
+        .content-type02 {
+            position: absolute;
+            padding: 0px 25px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            h3 {
+                color: #333;
+                font-size: 25px;
+                font-weight: 800;
+            }
+            p {
+                margin-top: 5px;
+                color: #333;
+                font-size: 14px;
+            }
+            .btn-shop-now {
+                margin-top: 35px;
+                color: #333;
+                font-size: 14px;
+                font-weight: 700;
+                transition: all 0.3s ease;
+                i {
+                    display: none;
+                    margin-left: 5px;
+                    font-size: 18px;
+                    display: inline-block;
+                }
+                &:hover {
+                    color: var(--primary);
+                }
+            }
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+        &:hover {
+            img {
+                transform: scale(1.1);
+            }
+        }
+    }
+    // @for $i from 1 through 4 {
+    //     .item-#{$i} {
+    //         animation: fadeFromBottomItem 1s #{$i/2}s forwards;
+    //     }
+    // }
+}
+
+.rec.rec-carousel {
+    .rec.rec-slider-container {
+        margin: 0 0 !important;
+    }
+}

@@ -1,42 +1,42 @@
 
 //Extra small
 @mixin xs {
-    @media (max-width: 576px) {
+    @media (max-width: 540px) {
         @content;
     }
 }
 
 //Small
 @mixin sm {
-    @media (min-width: 576px) {
+    @media (min-width: 540px) {
         @content;
     }
 }
 
 //Medium
 @mixin md {
-    @media (min-width: 768px) {
+    @media (min-width: 720px) {
         @content;
     }
 }
 
 //Large
 @mixin lg {
-    @media (min-width: 992px) {
+    @media (min-width: 960px) {
         @content;
     }
 }
 
 //Extra large
 @mixin xl {
-    @media (min-width: 1200px) {
+    @media (min-width: 1140px) {
         @content;
     }
 }
 
 //Extra extra large
 @mixin xxl {
-    @media (min-width: 1400px) {
+    @media (min-width: 1320px) {
         @content;
     }
 }

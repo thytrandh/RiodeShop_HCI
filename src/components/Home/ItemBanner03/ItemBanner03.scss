@@ -51,8 +51,8 @@
         h4.event {
             //color: var(--primary);
             color: var(--grey);
-            width: 40rem;
-            font-size: 1.1rem;
+            width: 39rem;
+            font-size: 1.05rem;
             font-weight: 300;
             animation: animateBackInTop 1.5s 0.5s forwards;
             opacity: 0;
@@ -64,6 +64,7 @@
             align-items: center;
             justify-content: center;
             background-color: var(--primary);
+            border-radius: 5px;
             width: 10rem;
             height: 3.6rem;
             transition: all 0.3s ease;
