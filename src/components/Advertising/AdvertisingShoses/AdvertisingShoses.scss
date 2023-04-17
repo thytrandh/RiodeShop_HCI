@@ -1,0 +1,113 @@
+.el-banner-03 {
+    .container {
+        background: url(../../../../public/images/el-banner-03/img-01.jpg) no-repeat center/cover;
+        .content {
+            padding: 40px 60px;
+            .el-content-01 {
+                h3 {
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 29px;
+                }
+                h6 {
+                    color: rgba(#fff, 0.8);
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+                .btn-shop-now {
+                    position: relative;
+                    display: inline-block;
+                    color: #0085c8;
+                    font-size: 14px;
+                    font-weight: 700;
+                    transition: all 0.3s ease;
+                    margin-top: 30px;
+                    i {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        margin-left: 7px;
+                        font-size: 17px;
+                        font-weight: 600;
+                    }
+                    &::after {
+                        position: absolute;
+                        left: 0;
+                        bottom: -7px;
+                        content: "";
+                        width: 100%;
+                        transform: scale(0);
+                        height: 2px;
+                        background: #0085c8;
+                        transition: all 0.3s ease;
+                    }
+                    &:hover {
+                        &::after {
+                            transform: scale(100%);
+                        }
+                    }
+                }
+            }
+            .el-content-02 {
+                position: relative;
+                width: 370px;
+                .item {
+                    text-align: center;
+                    h5 {
+                        font-weight: 700;
+                        font-size: 20px;
+                        color: #fff;
+                    }
+                    h4 {
+                        font-weight: 800;
+                        font-size: 39px;
+                        color: #0085c8;
+                    }
+                    .btn-shop-now {
+                        position: relative;
+                        display: inline-block;
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        margin-top: 10px;
+                        i {
+                            position: absolute;
+                            opacity: 0;
+                            top: 50%;
+                            left: 50%;
+                            transform: translateY(-50%);
+                            margin-left: 7px;
+                            font-size: 17px;
+                            font-weight: 600;
+                            transition: all 0.3s ease;
+                        }
+                        &:hover {
+                            i {
+                                opacity: 1;
+                                left: 100%;
+                            }
+                        }
+                    }
+                }
+                [class*="owl-"]:hover {
+                    background: none;
+                    color: #fff;
+                    text-decoration: none;
+                }
+                .owl-nav {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    button {
+                        font-size: 20px;
+                        color: rgba(#fff, 0.6);
+                    }
+                }
+            }
+        }
+    }
+}

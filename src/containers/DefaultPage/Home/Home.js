@@ -5,6 +5,7 @@ import TopBanner from "./TopBanner/TopBanner";
 import ListProduct from "../../../components/Product/ListProduct/ListProduct";
 import Carousel from "react-elastic-carousel";
 import ItemCategories from "../../../components/Home/ItemCategories/ItemCategories";
+import AdvertisingShoses from "../../../components/Advertising/AdvertisingShoses/AdvertisingShoses";
 
 const Home = () => {
   const breakPoints = [
@@ -39,17 +40,17 @@ const Home = () => {
               categoriesName={"SHOSES"}
               numberProduct={5}
             />
-              <ItemCategories
+            <ItemCategories
               imgCategories={"/images/categories/bg-02.jpg"}
               categoriesName={"BAGS"}
               numberProduct={15}
             />
-              <ItemCategories
+            <ItemCategories
               imgCategories={"/images/categories/bg-03.jpg"}
               categoriesName={"ACCESSORIES"}
               numberProduct={20}
             />
-              <ItemCategories
+            <ItemCategories
               imgCategories={"/images/categories/bg-04.jpg"}
               categoriesName={"CLOTHING"}
               numberProduct={8}
@@ -57,9 +58,18 @@ const Home = () => {
           </Carousel>
         </div>
       </div>
-      <div className="advertising advertising-grid"></div>
+      <div className="list-product-our-featured">
+        <h2 class="main-title mb-4">
+          <b>Our Featured</b>
+          <em>Our Featured</em>
+        </h2>
+        <ListProduct />
+      </div>
+
       <div className="list-products"></div>
-      <div className="advertising advertising-banner"></div>
+      <div className="advertising advertising-banner">
+        <AdvertisingShoses />
+      </div>
       <div className="blog"></div>
     </div>
   );
