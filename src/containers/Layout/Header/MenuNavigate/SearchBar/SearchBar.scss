@@ -14,8 +14,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.15rem;
-            color: var(--white);
+            color: #222;
+            font-size: 1.45rem;
+            font-weight: 300;
             transition: all 0.3s ease;
             &:hover {
                 color: var(--primary);
@@ -55,9 +56,10 @@
                     padding: 0.9rem 1.1rem;
                     background-color: var(--border-background);
                 }
-                i {
+                >i {
                     color: #222;
                     position: absolute;
+                    font-size: 1.15rem;
                     top: 50%;
                     right: 0%;
                     transform: translate(75%, -50%);

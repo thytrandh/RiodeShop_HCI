@@ -6,7 +6,7 @@ const Footer = () => {
       <div class="footer-page container">
         <div class="footer-top flex j-between">
           <div class="footer-left flex j-between a-center">
-            <Logo />
+            <Logo imgLogo={"/images/logo.png"} />
           </div>
           <div class="footer-right">
             <div class="item">

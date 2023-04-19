@@ -13,13 +13,13 @@ const Menu = () => {
       <ul className="mb-0 pl-0">
         <li className="item-navigate">
           <Link to={HOME_PAGE} replace={false}>
-            <p className="mb-0">HOME</p>
+            <p className="mb-0">Home</p>
           </Link>
         </li>
         <li className="item-navigate item-menu-dropdown">
           <div className="title">
             <Link to={CATEGORIES_PAGE} replace={false}>
-              <p className="mb-0">CATEGORIES</p>
+              <p className="mb-0">Categories</p>
             </Link>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
@@ -55,7 +55,7 @@ const Menu = () => {
         <li className="item-navigate item-menu-dropdown">
           <div className="title">
             <Link to={PRODUCTS_PAGE} replace={false}>
-              <p className="mb-0">PRODUCTS</p>
+              <p className="mb-0">Products</p>
             </Link>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
@@ -174,12 +174,17 @@ const Menu = () => {
         </li>
         <li className="item-navigate">
           <Link to={MY_ACCOUNT_PAGE} replace={false}>
-            <p className="mb-0">MY ACCOUNT</p>
+            <p className="mb-0">My Account</p>
+          </Link>
+        </li>
+        <li className="item-navigate">
+          <Link to={HOME_PAGE} replace={false}>
+            <p className="mb-0">Blog</p>
           </Link>
         </li>
         <li className="item-navigate">
           <Link to={MY_ACCOUNT_PAGE} replace={false}>
-            <p className="mb-0">CONTACT</p>
+            <p className="mb-0">About Us</p>
           </Link>
         </li>
       </ul>

@@ -7,8 +7,6 @@ const MenuNavigate = () => {
   return (
     <div className="menu-navigate">
       <Menu />
-      <div className="division mr-3"></div>
-      <SearchBar/>
     </div>
   );
 };

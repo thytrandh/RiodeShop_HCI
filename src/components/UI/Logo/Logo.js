@@ -1,8 +1,8 @@
 import "../Logo/Logo.scss";
-const Logo = () => {
+const Logo = ({imgLogo}) => {
   return (
     <div className="logo mr-5">
-      <img src="/images/logo.png" alt="" />
+      <img src={imgLogo} alt="" />
     </div>
   );
 };

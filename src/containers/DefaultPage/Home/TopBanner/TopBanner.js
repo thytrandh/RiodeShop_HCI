@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ItemBanner from "../../../../components/Home/ItemBanner01/ItemBanner01";
 import "../TopBanner/TopBanner.scss";
+import videoBg from "../../../../assets/videos/video.mp4";
 import ItemBanner01 from "../../../../components/Home/ItemBanner01/ItemBanner01";
 import ItemBanner02 from "../../../../components/Home/ItemBanner02/ItemBanner02";
 import ItemBanner03 from "../../../../components/Home/ItemBanner03/ItemBanner03";
@@ -57,7 +58,8 @@ const TopBanner = () => {
             className={isShow3 ? "item-dot mr-2 selected" : "item-dot mr-2"}
             onClick={() => showBanner(3)}
           >
-            <img src="/images/TopBanner/banner-03.jpg" alt="" />
+             <video src={videoBg} loop autoplay="" muted />
+            {/* <img src="/images/TopBanner/banner-03.jpg" alt="" /> */}
           </li>
         </ul>
       </div>

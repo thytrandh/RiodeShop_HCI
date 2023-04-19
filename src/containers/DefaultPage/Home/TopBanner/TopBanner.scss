@@ -1,13 +1,16 @@
 .top-banner {
+    > [class*="item-banner-"] {
+        margin-top: 5.1rem;
+    }
     position: relative;
     width: 100%;
     height: 100vh;
     .control-dots {
-        padding: 0px 10rem;
+        padding: 0px 5rem;
         position: absolute;
-        bottom: 5%;
+        bottom: 10%;
         right: 0%;
-        //transform: translate(-10%, -10%);
+        transform: translateY(0%);
         z-index: 998;
         ul {
             display: flex;
@@ -20,6 +23,7 @@
                 object-fit: cover;
                 border: 3px solid var(--dark-secondary);
                 transition: all 0.3s ease;
+                video,
                 img {
                     width: 100%;
                     height: 100%;

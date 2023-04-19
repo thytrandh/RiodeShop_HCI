@@ -7,7 +7,7 @@ const Default = () => {
   const [fixHeader, setFixHeader] = useState(false);
 
   const setFixedHeader = () => {
-    if (window.scrollY >= 250) {
+    if (window.scrollY >= 290) {
       setFixHeader(true);
     } else {
       setFixHeader(false);

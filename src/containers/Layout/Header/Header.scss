@@ -7,83 +7,81 @@
     .division {
         width: 1.2px;
         height: 1.8rem;
-        background-color: var(--body-text);
+        background-color: #E1E1E1;
     }
-    .left {
+    .user-menu,
+    .menu-right {
         display: flex;
         align-items: center;
         height: 100%;
-    }
-    .right {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        .user-menu,
-        .menu-right {
+        i {
+            cursor: pointer;
+            color: #222;
+            font-size: 1.45rem;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            &:hover {
+                color: var(--primary);
+            }
+        }
+        .box {
             display: flex;
             align-items: center;
-            i {
-                cursor: pointer;
-                color: var(--white);
-                font-size: 1.7rem;
-                font-weight: 300;
-                transition: all 0.3s ease;
-                &:hover{
-                    color: var(--primary);
-                }
+            justify-content: center;
+            height: 100%;
+            .item-searchbar{
+                height: 100%;
             }
-            .box {
+            .item-cart {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                .item-cart {
-                    display: flex;
-                    align-items: center;
-                    transition: all 0.3s ease; 
-                    &:hover{
-                        .title, .total{
-                            color: var(--primary);
-                        }
-                        i{
-                            color: var(--primary);
-                        }
+                transition: all 0.3s ease;
+                .total {
+                    color: var(--primary);
+                }
+                &:hover {
+                    .title,
+                    .total {
+                        color: var(--primary);
                     }
-                    .content {
-                        cursor: pointer;
-                        color: var(--white);
+                    i {
+                        color: var(--primary);
+                    }
+                }
+                .content {
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    .title {
+                        font-size: 0.75rem;
                         transition: all 0.3s ease;
-                        .title {
-                            font-size: 0.75rem;
-                            transition: all 0.3s ease;
-                        }
-                        .total {
-                            font-size: 0.85rem;
-                            font-weight: 600;
-                            transition: all 0.3s ease;
-                        }
                     }
-                    .btn-cart-dropdown {
-                        position: relative;
-                        .badge {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            transform: translate(35%, -15%);
-                            .badge-total {
-                                position: relative;
-                                width: 18px;
-                                height: 18px;
-                                background-color: var(--primary);
-                                border-radius: 50%;
-                                text-align: center;
-                                p {
-                                    position: absolute;
-                                    top: 50%;
-                                    left: 50%;
-                                    font-size: 0.65rem;
-                                    transform: translate(-50%, -50%);
-                                    transition: all 0.3s ease;
-                                }
+                    .total {
+                        font-size: 0.85rem;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                    }
+                }
+                .btn-cart-dropdown {
+                    position: relative;
+                    .badge {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        transform: translate(35%, -15%);
+                        .badge-total {
+                            position: relative;
+                            width: 18px;
+                            height: 18px;
+                            background-color: var(--primary);
+                            border-radius: 50%;
+                            text-align: center;
+                            p {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                font-size: 0.65rem;
+                                transform: translate(-50%, -50%);
+                                transition: all 0.3s ease;
                             }
                         }
                     }
