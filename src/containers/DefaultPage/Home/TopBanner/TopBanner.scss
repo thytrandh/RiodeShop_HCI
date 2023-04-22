@@ -1,7 +1,7 @@
 .top-banner {
-    > [class*="item-banner-"] {
-        margin-top: 5.1rem;
-    }
+    // > [class*="item-banner-"] {
+       
+    // }
     position: relative;
     width: 100%;
     height: 100vh;
@@ -37,32 +37,32 @@
     }
 }
 
-@keyframes animateBackInTop {
-    from {
-        transform: translate(0%, -100%);
-        opacity: 0;
-    }
-    to {
-        transform: translate(0%, 0);
-        opacity: 1;
-    }
-}
+// @keyframes animateBackInTop {
+//     from {
+//         transform: translate(0%, -100%);
+//         opacity: 0;
+//     }
+//     to {
+//         transform: translate(0%, 0);
+//         opacity: 1;
+//     }
+// }
 
-@keyframes animateBackInLeft {
-    from {
-        transform: translate(-100%, 0%);
-        opacity: 0;
-    }
-    to {
-        transform: translate(0%, 0);
-        opacity: 1;
-    }
-}
-@keyframes animateZoomOut {
-    from {
-        transform: scale(1.1);
-    }
-    to {
-        transform: scale(1);
-    }
-}
+// @keyframes animateBackInLeft {
+//     from {
+//         transform: translate(-100%, 0%);
+//         opacity: 0;
+//     }
+//     to {
+//         transform: translate(0%, 0);
+//         opacity: 1;
+//     }
+// }
+// @keyframes animateZoomOut {
+//     from {
+//         transform: scale(1.1);
+//     }
+//     to {
+//         transform: scale(1);
+//     }
+// }

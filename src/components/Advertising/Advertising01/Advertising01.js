@@ -49,7 +49,7 @@ const Advertising01 = () => {
             </div>
           </div>
         </div>
-        <div className="item-content-middle ">
+        <div className="item-content-middle tu">
           <div className="img-banner">
             <img className="blur-img" src="/images/advertising01/img-04.jpg" alt="" />
             <div className="blur"></div>

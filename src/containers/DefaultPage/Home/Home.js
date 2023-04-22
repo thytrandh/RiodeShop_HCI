@@ -6,6 +6,7 @@ import ListProduct from "../../../components/Product/ListProduct/ListProduct";
 import Carousel from "react-elastic-carousel";
 import ItemCategories from "../../../components/Home/ItemCategories/ItemCategories";
 import AdvertisingShoses from "../../../components/Advertising/AdvertisingShoses/AdvertisingShoses";
+import AdvertisingSummer from "../../../components/Advertising/AdvertisingSummer/AdvertisingSummer";
 
 const Home = () => {
   const breakPoints = [
@@ -62,6 +63,16 @@ const Home = () => {
         <h2 class="main-title mb-4">
           <b>Our Featured</b>
           <em>Our Featured</em>
+        </h2>
+        <ListProduct />
+      </div>
+      <div className="advertising">
+        <AdvertisingSummer />
+      </div>
+      <div className="list-product-our-featured">
+        <h2 class="main-title mb-4">
+          <b>Trends 2023</b>
+          <em>Trends 2023</em>
         </h2>
         <ListProduct />
       </div>

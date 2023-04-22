@@ -1,0 +1,39 @@
+.item-filter-size {
+    .input-group {
+        padding: 15px 0px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &:last-child{
+            border-bottom: none;
+        }
+        input[type="checkbox"] {
+            position: relative;
+            width: 17px;
+            height: 17px;
+            border: 1px solid var(--body-text);
+            appearance: none;
+            cursor: pointer;
+            &::after {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                content: "\f00c";
+                font-family: "Font Awesome 6 Free";
+                font-size: 10px;
+                font-weight: 900;
+                color: white;
+            }
+            &:checked {
+                background-color: #222;
+                border: 2px solid #222;
+            }
+        }
+        label {
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+    }
+}

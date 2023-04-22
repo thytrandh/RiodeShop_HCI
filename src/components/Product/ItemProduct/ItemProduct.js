@@ -9,7 +9,6 @@ const ItemProduct = ({
   rate,
   diverseProduct,
 }) => {
-
   const arrRate = [];
   for (let i = 0; i < rate; i++) {
     arrRate.push(arrRate[i]);
@@ -48,6 +47,13 @@ const ItemProduct = ({
           <div className="reviews-number">
             <p className="mb-0">({rate} Reviews)</p>
           </div>
+        </div>
+        <div className="description">
+          <p className="mb-0">
+            Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae
+            luctus metus libero eu augue. Morbi purus liberpuro ate vol faucibus
+            adipiscing.
+          </p>
         </div>
         <div className="box-option">
           {diverseProduct ? (

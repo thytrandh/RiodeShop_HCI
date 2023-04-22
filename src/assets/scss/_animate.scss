@@ -1,211 +1,231 @@
-@keyframes animateClosePopup{
-    from{
-      transform: rotate(0deg) scale(1);
-    }
-    to{
-      transform:  rotate(90deg) scale(1.6);
-    }
+@keyframes animateBackInTop {
+  from {
+    transform: translate(0%, -100%);
+    opacity: 0;
   }
-  
-  
-
-  //COLLECTION BANNER
-  @keyframes fadeFromBottomItem{
-    from{
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-  }
-
-
-  //EL-BANNER-01
-  @keyframes fadeInRightShorter{
-    from{
-        opacity: 0;
-        transform: translateX(15%);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-
-  @keyframes fadeInUpShorter{
-    from{
-        opacity: 0;
-        transform: translateY(15%);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-  @keyframes fadeInDownShorter{
-    from{
-        opacity: 0;
-        transform: translateY(-15%);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-
-  @keyframes fadeInLeftShorter{
-    from{
-        opacity: 0;
-        transform: translateX(-15%);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-
-
-  @keyframes fadeFromLeftNav{
-    from{
-      opacity: 0;
-      transform: translateX(50px);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-  
-  @keyframes fadeFromRightNav{
-    from{
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-  
-  @keyframes widthLeft{
-    from{
-      opacity: 0;
-      width: 0rem;
-    }
-    to{
-        opacity: 1;
-        width: 6rem;
-    }
-  }
-  
-  @keyframes rotateX{
-    from{
-      opacity: 0;
-      transform: rotateX(-100deg);
-    }
-    to{
-        opacity: 1;
-        transform: rotateX(0deg);
-    }
-  }
-  
-  @keyframes fadeFromLeft{
-    from{
-        opacity: 0;
-        transform: translateX(-6rem);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-  
-  @keyframes fadeFromRight{
-    from{
-        opacity: 0;
-        transform: translateX(7rem);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-  
-  @keyframes fadeFromBottom{
-    from{
-        opacity: 0;
-        transform: translateY(4rem);
-    }
-    to{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-  }
-  
-  @keyframes fadeFromTop{
-    from{
-        opacity: 0;
-        transform: translateY(-5rem);
-    }
-    to{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-  }
-  
-  
-  @keyframes fadeFromScale{
-    from{
-        opacity: 0;
-        transform: scale(0);
-    }
-    to{
-        opacity: 1;
-    }
-  }
-
-
-  //PRODUCT
-  //Product - Button View and Heart
-  @keyframes fadeFromRightProduct{
-    from{
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-  }
-
-  //Product - Button Add to cart
-  @keyframes fadeFromBottomProduct{
-    from{
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-  }
-
-//POSTER
-//Animate Star
-@keyframes rotateStar{
-  0%{
-    transform: rotate(0deg);
-  }
-  50%{
-    transform: rotate(180deg);
-  }
-  100%{
-    transform: rotate(360deg);
+  to {
+    transform: translate(0%, 0);
+    opacity: 1;
   }
 }
 
+@keyframes animateBackInLeft {
+  from {
+    transform: translate(-100%, 0%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0%, 0);
+    opacity: 1;
+  }
+}
+@keyframes animateZoomOut {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 
-  
-  
+@keyframes animateClosePopup {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(90deg) scale(1.6);
+  }
+}
+
+//COLLECTION BANNER
+@keyframes fadeFromBottomItem {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+//EL-BANNER-01
+@keyframes fadeInRightShorter {
+  from {
+    opacity: 0;
+    transform: translateX(15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInUpShorter {
+  from {
+    opacity: 0;
+    transform: translateY(15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes fadeInDownShorter {
+  from {
+    opacity: 0;
+    transform: translateY(-15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInLeftShorter {
+  from {
+    opacity: 0;
+    transform: translateX(-15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeFromLeftNav {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeFromRightNav {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes widthLeft {
+  from {
+    opacity: 0;
+    width: 0rem;
+  }
+  to {
+    opacity: 1;
+    width: 6rem;
+  }
+}
+
+@keyframes rotateX {
+  from {
+    opacity: 0;
+    transform: rotateX(-100deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes fadeFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-6rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeFromScale {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+//PRODUCT
+//Product - Button View and Heart
+@keyframes fadeFromRightProduct {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+//Product - Button Add to cart
+@keyframes fadeFromBottomProduct {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+//POSTER
+//Animate Star
+@keyframes rotateStar {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
