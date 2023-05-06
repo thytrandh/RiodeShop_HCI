@@ -157,7 +157,7 @@ const Menu = () => {
                   </li>
                 </ul>
               </div>
-              <div className="column ml-4">
+              <div className="column ">
                 <div className="banner-advertise">
                   <img src="/images/bg-menu.jpg" alt="" />
                   <div className="content">

@@ -40,23 +40,13 @@
                     }
                 }
             }
-            &:hover {
-                .box-dropdown {
-                    transform: translate(0, 100%);
-                    visibility: visible;
-                }
-                > .title {
-                    p,
-                    i {
-                        color: var(--primary);
-                    }
-                }
-            }
             .box-dropdown {
                 position: absolute;
-                bottom: 0;
+                bottom: 0%;
                 left: 0;
                 transform: translate(0, 80%);
+                opacity: 0;
+                // transform: translate(0, 80%);
                 visibility: hidden;
                 border-radius: 0px 0px 10px 10px;
                 background-color: #fff;
@@ -75,7 +65,7 @@
                                 padding: 10px 0px;
                                 p {
                                     color: var(--body-text);
-                                    transition: all 0.3s ease;
+                                    transition: all 0.2s ease;
                                     &:hover {
                                         color: var(--primary);
                                     }
@@ -115,6 +105,19 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+            &:hover {
+                .box-dropdown {
+                    transform: translate(0, 100%);
+                    opacity: 1;
+                    visibility: visible;
+                }
+                > .title {
+                    p,
+                    i {
+                        color: var(--primary);
                     }
                 }
             }

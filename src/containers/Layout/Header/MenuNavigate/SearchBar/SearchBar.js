@@ -29,6 +29,26 @@ const SearchBar = () => {
               productName={productName}
               price={price}
             />
+              <ItemSearchResult
+              imgProduct={imgProduct}
+              productName={productName}
+              price={price}
+            />
+              <ItemSearchResult
+              imgProduct={imgProduct}
+              productName={productName}
+              price={price}
+            />
+              <ItemSearchResult
+              imgProduct={imgProduct}
+              productName={productName}
+              price={price}
+            />
+              <ItemSearchResult
+              imgProduct={imgProduct}
+              productName={productName}
+              price={price}
+            />
           </div>
         </div>
       </div>
