@@ -111,3 +111,165 @@ body {
     background-color: #222;
   }
 }
+
+.border-auth-layout {
+  .auth-layout {
+    display: flex;
+    transition: all 0.3s ease;
+    .banner {
+      position: relative;
+      display: none;
+      background-color: #012e6b;
+      height: 100vh;
+      @include lg {
+        position: fixed;
+        display: block;
+        width: 50%;
+      }
+      .animate-circle {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        //transform: scale(0.8);
+        #circle-small {
+          -webkit-animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
+          animation-delay: 0s;
+          position: absolute;
+          top: 200px;
+          left: -150px;
+          background: rgba(#fff, 0.4);
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          opacity: 0.15;
+        }
+        #circle-medium {
+          -webkit-animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
+          animation-delay: 0.3s;
+          position: absolute;
+          top: 50px;
+          left: -300px;
+          background: rgba(#fff, 0.4);
+          width: 600px;
+          height: 600px;
+          border-radius: 50%;
+          opacity: 0.12;
+        }
+        #circle-large {
+          -webkit-animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
+          animation-delay: 0.6s;
+          position: absolute;
+          top: -100px;
+          left: -450px;
+          background: rgba(#fff, 0.4);
+          width: 900px;
+          height: 900px;
+          border-radius: 50%;
+          opacity: 0.1;
+        }
+        #circle-xlarge {
+          -webkit-animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
+          animation-delay: 0.9s;
+          position: absolute;
+          top: -250px;
+          left: -600px;
+          background: rgba(#fff, 0.4);
+          width: 1200px;
+          height: 1200px;
+          border-radius: 50%;
+          opacity: 0.08;
+        }
+        #circle-xxlarge {
+          -webkit-animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation: circle-small-scale 3s ease-in-out infinite alternate;
+          animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
+          animation-delay: 1.2s;
+          position: absolute;
+          top: -400px;
+          left: -750px;
+          background: rgba(#fff, 0.4);
+          width: 1500px;
+          height: 1500px;
+          border-radius: 50%;
+          opacity: 0.05;
+        }
+      }
+      .banner-img {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 800;
+        > .logo {
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 7rem;
+          padding: 5rem 5rem;
+          margin-left: -10px;
+          .img-logo {
+            width: 10rem;
+            img {
+              width: 100%;
+            }
+          }
+        }
+        .list-banner-img {
+          position: absolute;
+          z-index: 800;
+          top: 55%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: flex;
+        }
+      }
+    }
+    .auth-content {
+      position: relative;
+      background-color: var(--light);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      @include xl {
+        margin-left: 50%;
+      }
+    }
+  }
+  .rec,
+  .rec-carousel {
+    .rec,
+    .rec-pagination {
+      button.rec,
+      button.rec-dot {
+        width: 7px;
+        height: 6px;
+        border-radius: 50%;
+        box-shadow: none;
+        background-color: #a5a8ab;
+        &:focus {
+          width: 20px;
+          height: 6px;
+          border-radius: 5px;
+          background-color: var(--white);
+        }
+      }
+      button.rec-dot_active {
+        width: 20px;
+        height: 6px;
+        border-radius: 5px;
+        background-color: var(--white);
+      }
+    }
+  }
+}

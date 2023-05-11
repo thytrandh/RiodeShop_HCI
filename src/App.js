@@ -5,7 +5,7 @@ import AppRoutes from "./routes/AppRoutes";
 function App() {
   return (
     <>
-      <AuthContext.Provider value={{ isAuth: true }}>
+      <AuthContext.Provider value={{ isAuth: false }}>
         <BrowserRouter>
           <AppRoutes />
         </BrowserRouter>
