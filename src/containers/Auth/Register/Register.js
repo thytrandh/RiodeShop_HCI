@@ -1,12 +1,22 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { REGISTER_PAGE } from "../../../settings/constant";
-import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LOGIN_PAGE, REGISTER_PAGE } from "../../../settings/constant";
+import React, { useEffect, useState } from "react";
 
 import "../../Auth/AuthPage.scss";
+import { registerUser } from "../../../redux/slice/Auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Login from "../Login/Login";
+import { Alert, Space, message } from "antd";
 
 const Register = () => {
   const [values, setValues] = useState({});
+
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const navigate = useNavigate();
+
+  const error = useSelector((state) => state.auth.currentUser?.statusCodeValue);
 
   const {
     register,
@@ -15,23 +25,39 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    const { email, password } = data;
+    const { firstname, lastname, email, password } = data;
     setValues(data);
 
-    console.log(data);
+    const firstName = firstname;
+    const lastName = lastname;
 
-    // dispatch(
-    //   login({
-    //     email,
-    //     password,
-    //   })
-    // );
+    dispatch(
+      registerUser({
+        email,
+        firstName,
+        lastName,
+        password,
+      })
+    );
 
-    // reset({
-    //   email: "",
-    //   password: "",
-    // });
+    reset({
+      email: "",
+      password: "",
+    });
   };
+
+  useEffect(() => {
+    if(error == 400){
+      message.error(
+        "REGISTER FAIL! Email is already taken!."
+      );
+      setTimeout(window.location.reload(true), 1000);
+    }
+    if(currentUser?.body?.token){
+      navigate("/private/my-account");
+    }
+  })
+
   return (
     <div className="auth-page">
       <div className="title">
@@ -45,45 +71,75 @@ const Register = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="input-item mb-1">
-            <label for="firstname">
-              <p className="mb-0">First Name</p>
+            <label for="email">
+              <p className="mb-0">Email Address</p>
             </label>
             <div className="inputbox mb-1">
               <input
-                type="text"
+                type="email"
                 className="content-input"
-                placeholder="First Name"
-                name="firstname"
-                {...register("firstname", {
+                placeholder="Email Address"
+                name="email"
+                {...register("email", {
                   required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    //   message: "invalid email address",
+                  },
                 })}
               />
               <i class="fa-thin fa-user-plus"></i>
             </div>
-            {errors.firstname?.type === "required" && (
-              <span className="err-msg">First Name is required</span>
+            {errors.email?.type === "required" && (
+              <span className="err-msg">Email Address is required</span>
+            )}
+            {errors.email?.type === "pattern" && (
+              <span className="err-msg">Invalid Email Address</span>
             )}
           </div>
-          <div className="input-item mb-1">
-            <label for="username">
-              <p className="mb-0">Last Name</p>
-            </label>
-            <div className="inputbox mb-1">
-              <input
-                type="text"
-                className="content-input"
-                placeholder="Last Name"
-                name="lastname"
-                {...register("lastname", {
-                  required: true,
-                })}
-              />
-              <i class="fa-thin fa-user-plus"></i>
+          <div className="d-flex">
+            <div className="input-item mb-1 mr-1">
+              <label for="firstname">
+                <p className="mb-0">First Name</p>
+              </label>
+              <div className="inputbox mb-1">
+                <input
+                  type="text"
+                  className="content-input"
+                  placeholder="First Name"
+                  name="firstname"
+                  {...register("firstname", {
+                    required: true,
+                  })}
+                />
+                <i class="fa-thin fa-user-plus"></i>
+              </div>
+              {errors.firstname?.type === "required" && (
+                <span className="err-msg">First Name is required</span>
+              )}
             </div>
-            {errors.lastname?.type === "required" && (
-              <span className="err-msg">Last Name is required</span>
-            )}
+            <div className="input-item mb-1 ml-1">
+              <label for="username">
+                <p className="mb-0">Last Name</p>
+              </label>
+              <div className="inputbox mb-1">
+                <input
+                  type="text"
+                  className="content-input"
+                  placeholder="Last Name"
+                  name="lastname"
+                  {...register("lastname", {
+                    required: true,
+                  })}
+                />
+                <i class="fa-thin fa-user-plus"></i>
+              </div>
+              {errors.lastname?.type === "required" && (
+                <span className="err-msg">Last Name is required</span>
+              )}
+            </div>
           </div>
+
           <div className="input-item mb-1">
             <label for="password">
               <p className="mb-0">Your Password</p>
@@ -139,10 +195,10 @@ const Register = () => {
           </div>
           <div to className="link-to-page">
             <label>
-              <p className="mb-0">Don't Have An Account?</p>
+              <p className="mb-0">Already Have An Account?</p>
             </label>
-            <Link to={REGISTER_PAGE}>
-              <p className="mb-0">Register</p>
+            <Link to={LOGIN_PAGE}>
+              <p className="mb-0">Login</p>
             </Link>
           </div>
         </form>

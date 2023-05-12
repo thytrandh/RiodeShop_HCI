@@ -10,6 +10,8 @@ import {
 import PrivateRoute from "./PrivateRoute";
 import AuthLayout from "../layout/auth-layout";
 import Default from "../layout/default";
+import Login from "../containers/Auth/Login/Login";
+import Register from "../containers/Auth/Register/Register";
 
 const LoginPage = React.lazy(() => import("../containers/Auth/Login/Login"));
 const RegisterPage = React.lazy(() => import("../containers/Auth/Register/Register"));
@@ -36,8 +38,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/auth" element={<AuthLayout />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        <Route path="login" element={<Login/>} />
+        <Route path="register" element={<Register />} />
       </Route>
 
       {/* Default */}

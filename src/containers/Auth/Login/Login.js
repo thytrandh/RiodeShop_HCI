@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { REGISTER_PAGE } from "../../../settings/constant";
 
 import "../../Auth/AuthPage.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/slice/Auth/authSlice";
+import { useEffect } from "react";
+import { message } from "antd";
 
 const Login = () => {
   const {
@@ -11,23 +15,39 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const authError = useSelector((state) => state.auth.error);
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     const { email, password } = data;
 
-    console.log(data);
+    dispatch(
+      login({
+        email,
+        password,
+      })
+    );
 
-    // dispatch(
-    //   login({
-    //     email,
-    //     password,
-    //   })
-    // );
-
-    // reset({
-    //   email: "",
-    //   password: "",
-    // });
+    reset({
+      email: "",
+      password: "",
+    });
   };
+
+  useEffect(() => {
+    if (currentUser?.body?.token) {
+      navigate("/private/my-account");
+    }
+    if (authError == true) {
+      message.error(
+        "LOGIN FAIL! Please recheck email adress and password and try again."
+      );
+      setTimeout(window.location.reload(true), 1000);
+    }
+  });
 
   return (
     <div className="auth-page">
