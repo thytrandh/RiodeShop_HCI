@@ -43,20 +43,21 @@ const Register = () => {
     reset({
       email: "",
       password: "",
+      firstname: "",
+      lastname: "",
+      confirmpassword: "",
     });
   };
 
   useEffect(() => {
-    if(error == 400){
-      message.error(
-        "REGISTER FAIL! Email is already taken!."
-      );
+    if (error == 400) {
+      message.error("REGISTER FAIL! Email is already taken!.");
       setTimeout(window.location.reload(true), 1000);
     }
-    if(currentUser?.body?.token){
+    if (currentUser?.body?.token) {
       navigate("/private/my-account");
     }
-  })
+  });
 
   return (
     <div className="auth-page">
