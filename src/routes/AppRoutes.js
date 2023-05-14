@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import {
   CATEGORIES_PAGE,
+  CART_PAGE,
   CHECKOUT_PAGE,
   CONTACT_PAGE,
   MY_ACCOUNT_PAGE,
@@ -14,22 +15,37 @@ import Login from "../containers/Auth/Login/Login";
 import Register from "../containers/Auth/Register/Register";
 
 const LoginPage = React.lazy(() => import("../containers/Auth/Login/Login"));
-const RegisterPage = React.lazy(() => import("../containers/Auth/Register/Register"));
+const RegisterPage = React.lazy(() =>
+  import("../containers/Auth/Register/Register")
+);
 
-const HomePage = React.lazy(() => import("../containers/DefaultPage/Home/Home"));
-const CategoriesPage = React.lazy(() => import("../containers/DefaultPage/Categories/Categories"));
-const ProductsPage = React.lazy(() => import("../containers/DefaultPage/Products/Products"));
-const ContactPage = React.lazy(() => import("../containers/DefaultPage/Contact/Contact"));
+const HomePage = React.lazy(() =>
+  import("../containers/DefaultPage/Home/Home")
+);
+const CategoriesPage = React.lazy(() =>
+  import("../containers/DefaultPage/Categories/Categories")
+);
+const ProductsPage = React.lazy(() =>
+  import("../containers/DefaultPage/Products/Products")
+);
+const ContactPage = React.lazy(() =>
+  import("../containers/DefaultPage/Contact/Contact")
+);
 
-const MyAccountPage = React.lazy(() => import("../containers/PrivatePage/MyAccount/MyAccount"));
-const CheckOutPage = React.lazy(() => import("../containers/PrivatePage/CheckOut/CheckOut"));
-
+const MyAccountPage = React.lazy(() =>
+  import("../containers/PrivatePage/MyAccount/MyAccount")
+);
+const CheckOutPage = React.lazy(() =>
+  import("../containers/PrivatePage/CheckOut/CheckOut")
+);
+const CartPage = React.lazy(() =>
+  import("../containers/DefaultPage/Cart/Cart")
+);
 
 const AppRoutes = () => {
-
   const Notfound = () => {
     return <>Notfound</>;
-  } 
+  };
 
   const Loader = () => {
     return <>Loader</>;
@@ -38,7 +54,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/auth" element={<AuthLayout />}>
-        <Route path="login" element={<Login/>} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
 
@@ -109,10 +125,19 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        <Route
+          path={CART_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PrivateRoute>
+                <CartPage />
+              </PrivateRoute>
+            </React.Suspense>
+          }
+        />
       </Route>
 
       <Route path="*" element={<Notfound />}></Route>
-
     </Routes>
   );
 };

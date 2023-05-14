@@ -1,4 +1,3 @@
-
 //=============== AUTH PAGE ===================================
 
 export const LOGIN_PAGE = "/auth/login";
@@ -6,7 +5,6 @@ export const REGISTER_PAGE = "/auth/register";
 export const VERIFY_PAGE = "/auth/verify";
 
 //=============== AUTH PAGE - END =============================
-
 
 //=============== DEFAULT PAGE ===================================
 
@@ -16,6 +14,7 @@ export const CATEGORIES_PAGE = "/categories";
 
 export const PRODUCTS_PAGE = "/products/:productId";
 
+export const CART_PAGE = "/cart";
 
 export const CONTACT_PAGE = "/contact";
 
@@ -23,14 +22,8 @@ export const CONTACT_PAGE = "/contact";
 
 //=============== PRIVATE PAGE ===================================
 
-
 export const MY_ACCOUNT_PAGE = "/private/my-account";
 
 export const CHECKOUT_PAGE = "/private/checkout";
 
-
 //=============== DEFAULT - END =============================
-
-
-
-
