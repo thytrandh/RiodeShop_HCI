@@ -3,6 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import {
   CATEGORIES_PAGE,
   CART_PAGE,
+  ORDER_PAGE,
+  ORDER_DETAIL_PAGE,
   CHECKOUT_PAGE,
   CONTACT_PAGE,
   MY_ACCOUNT_PAGE,
@@ -39,9 +41,14 @@ const CheckOutPage = React.lazy(() =>
   import("../containers/PrivatePage/CheckOut/CheckOut")
 );
 const CartPage = React.lazy(() =>
-  import("../containers/DefaultPage/Cart/Cart")
+  import("../containers/PrivatePage/Cart/Cart")
 );
-
+const OrderPage = React.lazy(() =>
+  import("../containers/PrivatePage/Order/Order")
+);
+const OrderDetailPage = React.lazy(() =>
+  import("../containers/PrivatePage/Order/OrderDetail")
+);
 const AppRoutes = () => {
   const Notfound = () => {
     return <>Notfound</>;
@@ -132,6 +139,22 @@ const AppRoutes = () => {
               <PrivateRoute>
                 <CartPage />
               </PrivateRoute>
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={ORDER_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <OrderPage />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={ORDER_DETAIL_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <OrderDetailPage />
             </React.Suspense>
           }
         />

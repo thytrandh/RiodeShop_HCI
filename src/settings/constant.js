@@ -14,8 +14,6 @@ export const CATEGORIES_PAGE = "/categories";
 
 export const PRODUCTS_PAGE = "/products/:productId";
 
-export const CART_PAGE = "/cart";
-
 export const CONTACT_PAGE = "/contact";
 
 //=============== DEFAULT - END =============================
@@ -24,6 +22,12 @@ export const CONTACT_PAGE = "/contact";
 
 export const MY_ACCOUNT_PAGE = "/private/my-account";
 
+export const CART_PAGE = "/private/cart";
+
 export const CHECKOUT_PAGE = "/private/checkout";
+
+export const ORDER_PAGE = "/private/order";
+
+export const ORDER_DETAIL_PAGE = "/private/orderdetail";
 
 //=============== DEFAULT - END =============================
