@@ -21,12 +21,12 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     const { firstname, lastname, email, password } = data;
-    setValues(data);
 
     const firstName = firstname;
     const lastName = lastname;
@@ -49,15 +49,13 @@ const Register = () => {
     });
   };
 
+  const isLogin = localStorage.getItem("isLogin");
+
   useEffect(() => {
-    if (error == 400) {
-      message.error("REGISTER FAIL! Email is already taken!.");
-      setTimeout(window.location.reload(true), 1000);
-    }
-    if (currentUser?.body?.token) {
+    if (isLogin) {
       navigate("/private/my-account");
     }
-  });
+  }, [isLogin]);
 
   return (
     <div className="auth-page">
@@ -169,15 +167,23 @@ const Register = () => {
                 className="content-input"
                 placeholder="Confirm Password"
                 name="confirmpassword"
-                {...register("confirmpassword", { required: true })}
+                {...register("confirmpassword", {
+                  required: true,
+                  validate: (value) => {
+                    const password = getValues("password");
+                    if (value !== password) {
+                      return "Password is not matched!";
+                    }
+                  },
+                })}
               />
               <i class="fa-light fa-lock"></i>
             </div>
             {errors.confirmpassword?.type === "required" && (
               <span className="err-msg">Confirm Password is required</span>
             )}
-            {values.confirmpassword != values.password && (
-              <span className="err-msg">Password do not match</span>
+            {errors.confirmpassword?.message && (
+              <span className="err-msg">{errors.confirmpassword?.message}</span>
             )}
           </div>
 

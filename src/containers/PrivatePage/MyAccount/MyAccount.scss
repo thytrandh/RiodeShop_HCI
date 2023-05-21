@@ -1,0 +1,133 @@
+.my-account-page {
+    .container {
+        padding: 5rem 0px;
+        //height: 100vh;
+        .row {
+            height: 100%;
+            .left-content {
+                //box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.05);
+                .btn-item {
+                    cursor: pointer;
+                    padding: 0.95rem 5px;
+                    border-bottom: 1px solid var(--border-light);
+                    font-size: 0.85rem;
+                    color: var(--title-text);
+                    //font-weight: 600;
+                }
+                .btn-enable {
+                    position: relative;
+                    color: var(--primary);
+                    font-weight: 600;
+                    &::after {
+                        position: absolute;
+                        content: "\f061";
+                        font-family: "Font Awesome 5 Free";
+                        right: 5px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+            }
+            .right-content {
+                //box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.05);
+                border-radius: 5px;
+                padding: 10px 1.5rem;
+                .title {
+                    font-weight: 600;
+                }
+                .body {
+                    //background-color: antiquewhite;
+                    padding: 2rem 0rem;
+                    form {
+                        font-size: 0.85rem;
+                        .d-flex {
+                            width: 100%;
+                            .group-input {
+                                width: 50%;
+                                &:first-child {
+                                    margin-right: 1rem;
+                                }
+                            }
+                        }
+                        .group-input {
+                            margin-bottom: 25px;
+                            textarea.form-control {
+                                overflow: hidden;
+                                height: 54px;
+                                font-size: 0.85rem;
+                                margin-bottom: 5px;
+                                border-radius: 0px;
+                                font-weight: 500;
+                                resize: none;
+                                color: var(--title-text);
+                                &:focus {
+                                    border: 1px solid var(--primary);
+                                    color: var(--title-text);
+                                }
+                            }
+                            .form-control-plaintext {
+                                color: red;
+                            }
+                            select.form-select {
+                                margin-bottom: 5px;
+                                border-radius: 5px;
+                                font-size: 0.85rem;
+                                font-weight: 500;
+                                color: var(--title-text);
+                                &:focus {
+                                    border: 1px solid var(--primary);
+                                    box-shadow: none;
+                                    color: var(--title-text);
+                                }
+                            }
+
+                            span.err-msg {
+                                padding: 10px 5px;
+                                color: var(--remove);
+                                font-weight: 500;
+                            }
+                        }
+                        .footer-btn {
+                            padding: 50px 0px;
+                            position: relative;
+                            width: 100%;
+                            .btn-save-change {
+                                position: absolute;
+                                right: 0;
+                                cursor: pointer;
+                                text-align: center;
+                                //border-radius: 5px;
+                                width: 160px;
+                                height: 48px;
+                                line-height: 48px;
+                                background-color: var(--primary);
+                                transition: all 0.3s ease;
+                                p {
+                                    font-size: 0.85rem;
+                                    color: var(--white);
+                                    font-weight: 600;
+                                }
+                                &:hover {
+                                    background-color: var(--primary-hover);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            
+            }
+        }
+    }
+}
+
+.animate-from{
+    transition: all 0.5s ease;
+    transform: translateY(50%);
+    opacity: 0;
+}
+.animate-to{
+    transition: all 0.5s ease;
+    transform: translateY(0%);
+    opacity: 1;
+}

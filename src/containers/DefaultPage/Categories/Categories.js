@@ -6,6 +6,7 @@ import ItemFilterSize from "./FilterProduct/ItemFilterSize/ItemFilterSize";
 import ItemFilterPrice from "./FilterProduct/ItemFilterPrice/ItemFilterPrice";
 import AdvertisingDiscountJacket from "../../../components/Advertising/AdvertisingDiscountJacket/AdvertisingDiscountJacket";
 import ItemProduct from "../../../components/Product/ItemProduct/ItemProduct";
+import TopBanner from "../../../components/TopBanner/TopBanner";
 
 const Categories = () => {
   const listImgUrl = [
@@ -39,19 +40,7 @@ const Categories = () => {
 
   return (
     <div className="categories-page">
-      <div className="top-banner">
-        <div className="img-banner">
-          <img src="/images/page-categories/top-banner/img-01.jpg" alt="" />
-        </div>
-        <div className="content">
-          <div className="title">
-            <h2>RIODE SHOP</h2>
-          </div>
-          <div className="categories">
-            <p className="mb-0">CATEGORIES</p>
-          </div>
-        </div>
-      </div>
+      <TopBanner page={"CATEGORIES"}/>
       <div className="container">
         <div className="row m-0 p-0 body-content container">
           <div className="left slider-bar col-lg-3">

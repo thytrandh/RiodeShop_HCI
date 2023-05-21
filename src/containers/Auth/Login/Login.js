@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/slice/Auth/authSlice";
 import { useEffect } from "react";
 import { message } from "antd";
+import { getUser } from "../../../redux/slice/User/userSlice";
 
 const Login = () => {
   const {
@@ -37,17 +38,15 @@ const Login = () => {
     });
   };
 
+  const isLogin = localStorage.getItem("isLogin");
+
+
   useEffect(() => {
-    if (currentUser?.body?.token) {
+    if (isLogin) {
       navigate("/private/my-account");
+      dispatch(getUser());
     }
-    if (authError == true) {
-      message.error(
-        "LOGIN FAIL! Please recheck email adress and password and try again."
-      );
-      setTimeout(window.location.reload(true), 1000);
-    }
-  });
+  }, [isLogin]);
 
   return (
     <div className="auth-page">
