@@ -146,7 +146,9 @@ const AppRoutes = () => {
           path={ORDER_PAGE}
           element={
             <React.Suspense fallback={<Loader />}>
-              <OrderPage />
+              <PrivateRoute>
+                <OrderPage />
+              </PrivateRoute>
             </React.Suspense>
           }
         />
@@ -154,7 +156,9 @@ const AppRoutes = () => {
           path={ORDER_DETAIL_PAGE}
           element={
             <React.Suspense fallback={<Loader />}>
-              <OrderDetailPage />
+              <PrivateRoute>
+                <OrderDetailPage />
+              </PrivateRoute>
             </React.Suspense>
           }
         />

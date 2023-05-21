@@ -6,10 +6,11 @@ import { LOGIN_PAGE } from "../settings/constant";
 
 const PrivateRoute = ({ children }) => {
   const [isAuth, setAuth] = useContext(AuthContext);
+  console.log(AuthContext);
   const currentUser = useSelector(
     (state) => state.auth.currentUser?.body?.token
   );
-
+  console.log(currentUser);
   useEffect(() => {
     if (currentUser) {
       setAuth(true);
