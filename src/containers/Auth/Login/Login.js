@@ -41,7 +41,7 @@ const Login = () => {
     if (currentUser?.body?.token) {
       navigate("/private/my-account");
     }
-    if (authError == true) {
+    if (authError === true) {
       message.error(
         "LOGIN FAIL! Please recheck email adress and password and try again."
       );

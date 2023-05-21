@@ -2,7 +2,7 @@ import "../Header/Header.scss";
 import Logo from "../../../components/UI/Logo/Logo";
 import MenuNavigate from "./MenuNavigate/MenuNavigate";
 import { Link } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../settings/constant";
+import { LOGIN_PAGE, CART_PAGE } from "../../../settings/constant";
 import SearchBar from "./MenuNavigate/SearchBar/SearchBar";
 
 const Header = () => {
@@ -27,7 +27,7 @@ const Header = () => {
         </div>
         <div className="box">
           <div className="division mr-3"></div>
-          <div className="item-cart">
+          <Link to={CART_PAGE} replace={true} className="item-cart">
             <div className="content mr-3">
               <p className="title mb-0">Shopping Cart:</p>
               <h5 className="mb-0 total">$0.00</h5>
@@ -40,7 +40,7 @@ const Header = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

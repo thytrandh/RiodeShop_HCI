@@ -3,8 +3,19 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Input from "../../../components/Input";
 import TextArea from "../../../components/TextArea";
+import { useSelector } from "react-redux";
 
 const CheckOut = () => {
+  const { orderItems, loading, error } = useSelector((state) => state.cart);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    let totalPrice = 0;
+    orderItems.map((item) => {
+      totalPrice += item.totalPrice * item.quantity;
+      return totalPrice;
+    });
+    setTotal(totalPrice);
+  }, [orderItems]);
   const validate = Yup.object({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),

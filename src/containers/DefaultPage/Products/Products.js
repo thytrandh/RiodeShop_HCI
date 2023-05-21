@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../../assets/css/product.css";
 // import "../css/owl.theme.default.min.css";
 // import "../css/owl.theme.default.min.css";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import {
+  getProductById,
   addToCart,
   increment,
   decrement,
@@ -19,25 +20,35 @@ import {
 } from "../../../redux/slice/Cart/cartSlice";
 const Products = () => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
+  const [active, setActive] = useState("description");
+  const { productId } = useParams();
+  useEffect(() => {
+    dispatch(getProductById(productId));
+  }, [dispatch, productId]);
   const count = useSelector((state) => state.cart.count);
+  const { items, similarItems, loading, error } = useSelector(
+    (state) => state.products
+  );
+  const productItem = [{ ...items[0], isChecked: true, cartQuantity: 1 }];
+
   const handleIncrement = () => {
     dispatch(increment());
   };
   const handleDecrement = () => {
     dispatch(decrement());
   };
-  // const handleAddToCart = (product) => {
-  //   const productCart = {
-  //     productId: product.id,
-  //     quantity: count,
-  //   };
-  //   if (token) {
-  //     dispatch(addCart(productCart));
-  //   } else {
-  //     dispatch(addToCart(product));
-  //   }
-  // };
-  const [active, setActive] = useState("description");
+  const handleAddToCart = (product) => {
+    const productCart = {
+      productId: product.id,
+      quantity: count,
+    };
+    // if (token) {
+    //   dispatch(addCart(productCart));
+    // } else {
+    //   dispatch(addToCart(product));
+    // }
+  };
 
   return (
     <div className="mx-5">
