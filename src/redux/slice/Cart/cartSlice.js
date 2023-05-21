@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import api from "../../api/api";
+import { setAuthHeader } from "../../api/setHeader";
 
 const initialState = {
   cartItems: localStorage.getItem("cartItems")
@@ -14,51 +16,92 @@ const initialState = {
   loading: false,
   check: false,
   message: "",
-  error: "",
+  error: false,
   paypalLink: "",
 };
-export const cartFetch = createAsyncThunk("cartfetch", async () => {
-  const res = await fetch("http://localhost:5000/api/cart", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
-    },
-  });
-  return await res.json();
+export const getProductById = createAsyncThunk(
+  "getProductById",
+  async (data, thunkAPI) => {
+    console.log(data);
+    try {
+      const result = await api.get(`/api/v1/product/${data}`);
+      return result.data;
+    } catch (error) {
+      const errMessage = error.response.data.message;
+      return thunkAPI.rejectWithValue(errMessage);
+    }
+  }
+);
+export const cartFetch = createAsyncThunk("cartfetch", async (thunkAPI) => {
+  try {
+    const result = await api.get("/api/v1/get-cart-items");
+    return result.data;
+  } catch (error) {
+    const errMessage = error.response.data.message;
+    return thunkAPI.rejectWithValue(errMessage);
+  }
 });
-export const addCart = createAsyncThunk("addcart", async (body) => {
-  console.log(body);
-  const res = await fetch("http://localhost:5000/api/cart/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
-    },
-    body: JSON.stringify(body),
-  });
-  return await res.json();
+export const addCart = createAsyncThunk("addcart", async (data, thunkAPI) => {
+  try {
+    const result = await api.post("/api/v1/add-cart-item", data);
+    return result.data;
+  } catch (error) {
+    const errMessage = error.response.data.message;
+    return thunkAPI.rejectWithValue(errMessage);
+  }
 });
+// export const addCart = createAsyncThunk("addcart", async (body) => {
+//   console.log(body);
+//   const res = await fetch("http://localhost:5000/api/cart/add", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("token"),
+//     },
+//     body: JSON.stringify(body),
+//   });
+//   return await res.json();
+// });
+// export const updateCart = createAsyncThunk(
+//   "updatecart",
+//   async (data, thunkAPI) => {
+//     try {
+//       const result = await api.put(
+//         `/api/v1/update-cart-item/id?id=${data.id}`,
+//         data
+//       );
+//       return result;
+//     } catch (error) {
+//       const errMessage = error.response.data.message;
+//       return thunkAPI.rejectWithValue(errMessage);
+//     }
+//   }
+// );
 export const updateCart = createAsyncThunk("updatecart", async (body) => {
-  const res = await fetch("http://localhost:5000/api/cart/update", {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
-    },
-    body: JSON.stringify(body),
-  });
+  console.log(body);
+  const res = await fetch(
+    `http://localhost:5000/api/v1/update-cart-item?cartItemID=${body.id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }
+  );
   return await res.json();
 });
 export const removeCart = createAsyncThunk("removecart", async (body) => {
-  const res = await fetch("http://localhost:5000/api/cart/remove", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
-    },
-    body: JSON.stringify(body),
-  });
+  const res = await fetch(
+    `http://localhost:5000/api/v1/delete-cart-item?cartItemID=${body.id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }
+  );
   return await res.json();
 });
 export const payOrder = createAsyncThunk("payorder", async (body) => {
@@ -217,19 +260,30 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: {
+    //getProductById
+    [getProductById.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getProductById.fulfilled]: (state, { payload }) => {
+      state.items = payload.data;
+      state.loading = false;
+    },
+    [getProductById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+    },
+    //cartFetch
     [cartFetch.pending]: (state, action) => {
       state.loading = true;
     },
-    [cartFetch.fulfilled]: (state, { payload: { results, checked } }) => {
-      state.cartItems = results;
+    [cartFetch.fulfilled]: (state, { payload }) => {
+      state.cartItems = payload.data;
       state.loading = false;
-      if (results) {
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-      }
+      state.error = false;
     },
-    [cartFetch.rejected]: (state, { payload }) => {
-      state.loading = true;
-      state.message = payload.message;
+    [cartFetch.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
     },
     //addCart
     [addCart.pending]: (state, action) => {
@@ -254,19 +308,24 @@ const cartSlice = createSlice({
       state.message = payload.message;
     },
     //update
-    [updateCart.pending]: (state, action) => {
+    [updateCart.pending]: (state, { payload }) => {
       state.loading = true;
     },
     [updateCart.fulfilled]: (state, { payload }) => {},
     [updateCart.rejected]: (state, { payload }) => {
-      state.loading = true;
-      state.message = payload.message;
+      state.loading = false;
     },
     //Remove
     [removeCart.pending]: (state, action) => {
       state.loading = true;
     },
-    [removeCart.fulfilled]: (state, { payload }) => {},
+    [removeCart.fulfilled]: (state, { payload }) => {
+      if (payload.message === "success") {
+        toast.success("Sản phẩm đã được thêm vào giỏ", {
+          position: "bottom-left",
+        });
+      }
+    },
     [removeCart.rejected]: (state, { payload }) => {
       state.loading = true;
       state.message = payload.message;
