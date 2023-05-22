@@ -6,11 +6,11 @@ import "../../../assets/css/style.css";
 import "../../../assets/css/reset.css";
 import Fade from "react-reveal/Fade";
 import Flip from "react-reveal/Flip";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import {
+  fetchProductRelated,
   getProductById,
   addToCart,
   increment,
@@ -19,6 +19,7 @@ import {
   listOrder,
 } from "../../../redux/slice/Cart/cartSlice";
 const Products = () => {
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const [active, setActive] = useState("description");
@@ -27,11 +28,23 @@ const Products = () => {
     dispatch(getProductById(productId));
   }, [dispatch, productId]);
   const count = useSelector((state) => state.cart.count);
-  const { items, similarItems, loading, error } = useSelector(
-    (state) => state.products
-  );
-  const productItem = [{ ...items[0], isChecked: true, cartQuantity: 1 }];
+  const { items, loading, error } = useSelector((state) => state.cart);
+  const productItem = { ...items, isChecked: true, quantity: 1 };
+  console.log(items);
+  // const product = {
+  //   id: items.id,
+  //   productName: items.productName,
+  //   price: items.price,
+  //   category: items.category,
+  //   type: items.type,
+  //   productImageId: items.productImageId,
+  //   description: items.description,
+  // };
+  // useEffect(() => {
+  //   dispatch(fetchProductRelated(product));
+  // }, [dispatch]);
 
+  console.log(productItem);
   const handleIncrement = () => {
     dispatch(increment());
   };
@@ -40,14 +53,18 @@ const Products = () => {
   };
   const handleAddToCart = (product) => {
     const productCart = {
-      productId: product.id,
+      product: product.id,
       quantity: count,
+      totalPrice: product.price,
+      size: "M",
+      color: "Mint",
+      account: "1",
     };
-    // if (token) {
-    //   dispatch(addCart(productCart));
-    // } else {
-    //   dispatch(addToCart(product));
-    // }
+    if (token) {
+      dispatch(addCart(productCart));
+    } else {
+      Navigate("/auth/login");
+    }
   };
 
   return (
@@ -87,31 +104,28 @@ const Products = () => {
           </div>
           <Fade clear duration={1500}>
             <div className="product-info">
-              <p className="product-navigation">
-                <i className="fal fa-home-alt"></i> Home {">"} Products {">"}
-                <span className="ctgry">Dresses</span> {">"}
-                <span className="name-prod">
-                  Solid pattern in fashion summer dress
-                </span>
+              <p className="product-navigation cursor-pointer">
+                <i className="fal fa-home-alt"></i> Home {">"} Products {"> "}
+                <span className="text-gray-500">{productItem.productName}</span>
               </p>
               <div className="product-info-content">
                 <div className="product-title text-2xl font-semibold">
-                  Solid pattern in fashion summer dress
+                  {productItem.productName}
                 </div>
                 <div className="product-meta">
                   <span className="sku-wrapper">
                     SKU:
-                    <span className="sku ml-2">987612347</span>
+                    <span className="sku ml-1">{productItem.id}</span>
                   </span>
                   <span className="posted_in">
                     CATEGORY:
-                    <a className="posted_in_text ml-2" href="/">
-                      Fashionable Women's
+                    <a className="posted_in_text ml-1" href="/">
+                      {productItem?.category?.categoryName}
                     </a>
                   </span>
                 </div>
 
-                <p className="range-price">$140.00 – $340.00</p>
+                <p className="range-price">${productItem.price}</p>
 
                 <div className="product-rating flex a-center">
                   <div className="star-rating">
@@ -125,22 +139,18 @@ const Products = () => {
                 </div>
 
                 <div className="product-details">
-                  <p>
-                    Sed egestas, ante et vulputate volutpat, eros pede semper
-                    est, vitae luctus metus libero eu augue. Morbi purus
-                    liberpuro ate vol faucibus adipiscing.
-                  </p>
+                  <p>{productItem?.description}</p>
                 </div>
 
                 <table className="variations">
                   <tr className="product-color flex a-center j-between">
-                    <th className="label">Color: </th>
+                    <th className="label">Color: {}</th>
                     <th>
                       <div className="el-color"></div>
                     </th>
                   </tr>
                   <tr className="product-size flex a-center j-between">
-                    <th className="label">Size: </th>
+                    <th className="label">Size: {}</th>
                     <th>
                       <div className="el-size"></div>
                     </th>
@@ -153,7 +163,7 @@ const Products = () => {
                 </table>
 
                 <p className="price">
-                  $<span className="into-price">340</span>.00
+                  $<span className="into-price">{productItem.price}</span>
                 </p>
 
                 <div className="varication-add-to-cart flex a-center">
@@ -172,7 +182,10 @@ const Products = () => {
                       +
                     </button>
                   </div>
-                  <button className="btn-add-to-cart btn-add-cart flex a-center">
+                  <button
+                    onClick={() => handleAddToCart(productItem)}
+                    className="btn-add-to-cart btn-add-cart flex a-center"
+                  >
                     <i className="fal fa-shopping-bag"></i>
                     <div>Add to cart</div>
                   </button>
@@ -252,13 +265,7 @@ const Products = () => {
                   <div className="description-content">
                     <div className="features">
                       <h5>Features</h5>
-                      <p>
-                        Praesent id enim sit amet.Tdio vulputate eleifend in in
-                        tortor. ellus massa. siti iMassa ristique sit amet
-                        condim vel, facilisis quimequistiqutiqu amet condim
-                        Dilisis Facilisis quis sapien. Praesent id enim sit
-                        amet.
-                      </p>
+                      <p>{productItem?.description}</p>
                       <ul className="list-type-check">
                         <li>
                           <i className="far fa-check"></i>Praesent id enim sit
@@ -344,16 +351,16 @@ const Products = () => {
               >
                 <div>
                   <div className="grid grid-cols-8 gap-5 mb-3">
-                    <p className="font-bold">Size</p>
-                    <div className="col-span-7">Large, Medium, Small</div>
+                    <p className="font-bold">Size:</p>
+                    <div className="col-span-7">{productItem?.size}</div>
                   </div>
                   <div className="grid grid-cols-8 gap-5 mb-3">
                     <p className="font-bold">Color:</p>
-                    <div className="col-span-7">Blue, Green</div>
+                    <div className="col-span-7">{productItem?.color}</div>
                   </div>
                   <div className="grid grid-cols-8 gap-5 mb-3">
                     <p className="font-bold">Brands:</p>
-                    <div className="col-span-7">SLS</div>
+                    <div className="col-span-7">{}</div>
                   </div>
                 </div>
               </Fade>

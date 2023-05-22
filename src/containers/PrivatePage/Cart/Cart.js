@@ -19,7 +19,9 @@ const Cart = () => {
   const [carts, setCarts] = useState([]);
   const [disable, setDisable] = useState(true);
   const [total, setTotal] = useState(0);
+  const [length, setLength] = useState(0);
   const [selected, setSected] = useState(false);
+
   console.log(carts);
   useEffect(() => {
     dispatch(cartFetch());
@@ -31,15 +33,18 @@ const Cart = () => {
 
   useEffect(() => {
     let subTotal = 0;
+    let length = 0;
     setDisable(true);
     carts?.map((cart) => {
       if (cart.isChecked) {
+        length = length + 1;
         subTotal += cart.totalPrice * cart.quantity;
         setDisable(false);
       }
       return subTotal;
     });
     setTotal(subTotal);
+    setLength(length);
   }, [carts]);
 
   const handleChange = (e) => {
@@ -53,7 +58,7 @@ const Cart = () => {
       setDisable(!disable);
     } else {
       tempCart = carts.map((cart) =>
-        cart.stock.product.addToCartproductName === name
+        cart.stock.product.productName === name
           ? { ...cart, isChecked: checked }
           : cart
       );
@@ -63,8 +68,13 @@ const Cart = () => {
   const handleIncreaseCart = (cartItem) => {
     if (cartItem.quantity < cartItem.stock.product.quantity) {
       const productCart = {
-        product: cartItem.id,
+        id: cartItem.id,
+        product: cartItem.product,
         quantity: cartItem.quantity + 1,
+        totalPrice: cartItem.totalPrice,
+        size: cartItem.size,
+        color: cartItem.color,
+        account: "1",
       };
       const itemIndex = carts.findIndex((item) => item.id === cartItem.id);
       const cart = [...carts];
@@ -79,8 +89,13 @@ const Cart = () => {
   const handleDecreaseCart = (cartItem) => {
     if (cartItem.quantity > 1) {
       const productCart = {
-        product: cartItem.id,
+        id: cartItem.id,
+        product: cartItem.product,
         quantity: cartItem.quantity - 1,
+        totalPrice: cartItem.totalPrice,
+        size: cartItem.size,
+        color: cartItem.color,
+        account: "1",
       };
       const itemIndex = carts.findIndex((item) => item.id === cartItem.id);
       const cart = [...carts];
@@ -94,7 +109,7 @@ const Cart = () => {
   };
   const handleRemoveFromCart = (cartItem) => {
     const productCart = {
-      product: cartItem.id,
+      id: cartItem.id,
     };
     const cart = [...carts];
     setCarts(cart.filter((item) => item.id !== cartItem.id));
@@ -128,26 +143,20 @@ const Cart = () => {
         You have {carts?.length || 0} items in your cart
       </div>
       {carts ? (
-        carts?.map((cartItem) => (
-          <div key={cartItem.cartId}>
-            <div className="py-1">
-              <div className="bg-white font-medium text-sm rounded-xl py-4 grid grid-cols-12 drop-shadow-lg">
-                <div className="col-start-1 col-span-1 gap-4 flex items-center justify-center">
-                  <input
-                    type="checkbox"
-                    name="allSelect"
-                    className="w-4 h-4 cursor-pointer"
-                    checked={!carts?.some((cart) => cart?.isChecked !== true)}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="ml-5 col-start-3 text-center">Product</div>
-                <div className="col-start-8 col-span-1 text-center">Price</div>
-                <div className="col-span-2 text-center">Quantity</div>
-                <div className="col-span-1 text-center">Total</div>
-              </div>
-
-              <div className="my-3 bg-white rounded-xl drop-shadow-md">
+        <div>
+          <div className="py-1">
+            <div className="bg-white font-medium text-sm rounded-xl py-4 grid grid-cols-12 drop-shadow-lg">
+              <div className="col-start-1 col-span-1 gap-4 flex items-center justify-center"></div>
+              <div className="col-start-2 text-center">Product</div>
+              <div className="col-start-8 col-span-1 text-center">Price</div>
+              <div className="col-span-2 text-center">Quantity</div>
+              <div className="col-span-1 text-center">Total</div>
+            </div>
+            {carts?.map((cartItem) => (
+              <div
+                key={cartItem.cartId}
+                className="my-3 bg-white rounded-xl drop-shadow-md"
+              >
                 <div className="py-4 grid grid-cols-12 place-items-center text-sm">
                   <input
                     name={cartItem.stock.product.productName}
@@ -172,7 +181,7 @@ const Cart = () => {
                     {cartItem.stock.product.productName}
                   </div>
                   <div className="col-start-8 text-center text-lg font-medium text-[#ee4d2d]">
-                    {convertPrice(cartItem.totalPrice)}
+                    ${convertPrice(cartItem.totalPrice)}
                   </div>
                   <div className="col-start-9 col-span-2">
                     <div className="w-36 h-8 rounded-2xl border border-black grid grid-cols-3 place-items-center">
@@ -192,7 +201,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className=" text-center text-lg font-medium text-[#ee4d2d]">
-                    {convertPrice(cartItem.totalPrice * cartItem.quantity)}
+                    ${convertPrice(cartItem.totalPrice * cartItem.quantity)}
                   </div>
                   <BsTrash
                     className="h-5 w-5 cursor-pointer"
@@ -200,38 +209,49 @@ const Cart = () => {
                   ></BsTrash>
                 </div>
               </div>
-            </div>
-            <div className="sticky mb-5 !z-50 bottom-0 items-center grid grid-cols-11 place-items-center bg-white drop-shadow-[0_-5px_5px_rgba(0,0,0,0.10)] border rounded-md ">
-              <div className="flex gap-x-3 col-span-2 justify-center content-center w-full">
-                <input
-                  type="checkbox"
-                  name="allSelect"
-                  className="w-4 h-4 cursor-pointer my-auto"
-                  checked={!carts?.some((cart) => cart?.isChecked !== true)}
-                  onChange={handleChange}
-                />
-                <div className="">Select all</div>
-              </div>
-              {selected && (
-                <div className="flex gap-2 cursor-pointer hover:text-[#ee4d2d] ">
-                  <BsTrash
-                    className="h-5 w-5 cursor-pointer "
-                    //   onClick={() => handleRemoveFromCart(cartItem)}
-                  ></BsTrash>
-                  <span className="">Delete all</span>
-                </div>
-              )}
-              <div className="w-full flex gap-2 col-start-7 col-span-3 py-auto justify-center items-center">
-                <div className="font-semibold text-slate-800">Total price</div>
-                <div className="text-gray-700">{`(0 products)`}</div>
-                <span className="text-xl text-[#ee4d2d]">$9999</span>
-              </div>
-              <button className="col-start-10 col-span-2 bg-[#ee4d2d] m-3 p-2 text-sm font-medium text-white rounded-lg items-right w-48 h-12 hover:bg-[#ff3700] hover:drop-shadow-xl transition-all">
-                Go to checkout
-              </button>
-            </div>
+            ))}
           </div>
-        ))
+
+          <div className="sticky mb-5 !z-50 bottom-0 items-center grid grid-cols-11 place-items-center bg-white drop-shadow-[0_-5px_5px_rgba(0,0,0,0.10)] border rounded-md ">
+            <div className="flex gap-x-3 col-span-2 justify-center content-center w-full">
+              <input
+                type="checkbox"
+                name="allSelect"
+                className="w-4 h-4 cursor-pointer my-auto"
+                checked={!carts?.some((cart) => cart?.isChecked !== true)}
+                onChange={handleChange}
+              />
+              <div className="">Select all</div>
+            </div>
+            {selected && (
+              <div className="flex gap-2 cursor-pointer hover:text-[#ee4d2d] ">
+                <BsTrash
+                  className="h-5 w-5 cursor-pointer "
+                  //   onClick={() => handleRemoveFromCart(cartItem)}
+                ></BsTrash>
+                <span className="">Delete all</span>
+              </div>
+            )}
+            <div className="w-full flex gap-2 col-start-7 col-span-3 py-auto justify-center items-center">
+              <div className="font-semibold text-slate-800">Total price</div>
+              <div className="text-gray-700">({length} product)</div>
+              <span className="text-xl text-[#ee4d2d]">
+                ${convertPrice(total)}
+              </span>
+            </div>
+            <button
+              className={`${
+                disable
+                  ? "bg-slate-500 opacity-60"
+                  : "bg-[#ee4d2d] hover:bg-[#ff3700] hover:drop-shadow-xl "
+              } col-start-10 col-span-2  m-3 p-2 text-sm font-medium text-white rounded-lg items-right w-48 h-12 transition-all`}
+              disabled={disable}
+              onClick={() => handleOrder(carts)}
+            >
+              Go to checkout
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="text-center mb-2">
           <div className="flex justify-center items-center my-5">

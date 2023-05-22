@@ -22,9 +22,20 @@ const initialState = {
 export const getProductById = createAsyncThunk(
   "getProductById",
   async (data, thunkAPI) => {
-    console.log(data);
     try {
       const result = await api.get(`/api/v1/product/${data}`);
+      return result.data;
+    } catch (error) {
+      const errMessage = error.response.data.message;
+      return thunkAPI.rejectWithValue(errMessage);
+    }
+  }
+);
+export const fetchProductRelated = createAsyncThunk(
+  "fetchProductRelated",
+  async (data, thunkAPI) => {
+    try {
+      const result = await api.get("/api/v1/suggest-product", data);
       return result.data;
     } catch (error) {
       const errMessage = error.response.data.message;
@@ -62,35 +73,22 @@ export const addCart = createAsyncThunk("addcart", async (data, thunkAPI) => {
 //   });
 //   return await res.json();
 // });
-// export const updateCart = createAsyncThunk(
-//   "updatecart",
-//   async (data, thunkAPI) => {
-//     try {
-//       const result = await api.put(
-//         `/api/v1/update-cart-item/id?id=${data.id}`,
-//         data
-//       );
-//       return result;
-//     } catch (error) {
-//       const errMessage = error.response.data.message;
-//       return thunkAPI.rejectWithValue(errMessage);
-//     }
-//   }
-// );
-export const updateCart = createAsyncThunk("updatecart", async (body) => {
-  console.log(body);
-  const res = await fetch(
-    `http://localhost:5000/api/v1/update-cart-item?cartItemID=${body.id}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+export const updateCart = createAsyncThunk(
+  "updatecart",
+  async (data, thunkAPI) => {
+    try {
+      console.log(data);
+      const result = await api.put(
+        `/api/v1/update-cart-item?cartItemID=${data.id}`,
+        data
+      );
+      return result;
+    } catch (error) {
+      const errMessage = error.response.data.message;
+      return thunkAPI.rejectWithValue(errMessage);
     }
-  );
-  return await res.json();
-});
+  }
+);
 export const removeCart = createAsyncThunk("removecart", async (body) => {
   const res = await fetch(
     `http://localhost:5000/api/v1/delete-cart-item?cartItemID=${body.id}`,
@@ -165,7 +163,7 @@ const cartSlice = createSlice({
         if (item.isChecked) state.orderItems.push(item);
         return state;
       });
-      localStorage.setItem("orderItems", JSON.stringify(state.orderItems));
+      // localStorage.setItem("orderItems", JSON.stringify(state.orderItems));
     },
     increment: (state) => ({
       ...state,
@@ -260,6 +258,18 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: {
+    //fetchProductRelated
+    [fetchProductRelated.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [fetchProductRelated.fulfilled]: (state, { payload }) => {
+      state.items = payload.data;
+      state.loading = false;
+    },
+    [fetchProductRelated.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+    },
     //getProductById
     [getProductById.pending]: (state, action) => {
       state.loading = true;

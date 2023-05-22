@@ -10,7 +10,7 @@ export const getUser = createAsyncThunk(
   "user/getUser",
   async (data, thunkAPI) => {
     try {
-      const result = await api.get("/api/v1/user");
+      const result = await api.get("/api/v1/get-customer-info");
       // console.log(result.data);
       return result.data;
     } catch (error) {

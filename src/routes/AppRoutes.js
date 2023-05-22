@@ -114,22 +114,22 @@ const AppRoutes = () => {
         <Route
           path={MY_ACCOUNT_PAGE}
           element={
-            <React.Suspense fallback={<Loader />}>
-              <PrivateRoute>
+            <PrivateRoute>
+              <React.Suspense fallback={<Loader />}>
                 <MyAccountPage />
-              </PrivateRoute>
-            </React.Suspense>
+              </React.Suspense>
+            </PrivateRoute>
           }
         />
 
         <Route
           path={CHECKOUT_PAGE}
           element={
-            <React.Suspense fallback={<Loader />}>
-              <PrivateRoute>
+            <PrivateRoute>
+              <React.Suspense fallback={<Loader />}>
                 <CheckOutPage />
-              </PrivateRoute>
-            </React.Suspense>
+              </React.Suspense>
+            </PrivateRoute>
           }
         />
         <Route

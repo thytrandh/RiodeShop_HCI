@@ -6,18 +6,18 @@ import { LOGIN_PAGE } from "../settings/constant";
 
 const PrivateRoute = ({ children }) => {
   const [isAuth, setAuth] = useContext(AuthContext);
-  console.log(AuthContext);
-  const currentUser = useSelector(
-    (state) => state.auth.currentUser?.body?.token
-  );
-  console.log(currentUser);
-  useEffect(() => {
-    if (currentUser) {
-      setAuth(true);
-    }
-  });
+  const isLogin = localStorage.getItem("isLogin");
+  // const currentUser = useSelector(
+  //   (state) => state.auth.currentUser?.body?.token
+  // );
 
-  return isAuth ? children : <Navigate to={LOGIN_PAGE} />;
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     setAuth(true);
+  //   }
+  // });
+
+  return isLogin ? children : <Navigate to={LOGIN_PAGE} />;
 };
 
 export default PrivateRoute;

@@ -1,0 +1,24 @@
+.dashboard-content {
+    font-size: 0.85rem;
+    color: var(--body-text);
+    span {
+        color: var(--primary);
+    }
+
+    .btn-go-to-shop {
+        display: flex;
+        align-items: center;
+        width: 8.5rem;
+        height: 3rem;
+        background-color: #333;
+        //border-radius: 5px;
+        color: var(--white);
+        font-weight: 600;
+
+        p {
+            width: 100%;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    }
+}

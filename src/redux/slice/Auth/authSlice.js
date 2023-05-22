@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import api from "../../api/api";
-import { setAuthHeader } from "../../api/setHeader";
+import { clearAuthHeader, setAuthHeader } from "../../api/setHeader";
+import { message } from "antd";
 
 const initialState = {
   currentUser: null,
@@ -15,12 +16,15 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
 
     const result = await api.post("/api/v1/auth/authentication", {
       email,
-      password
+      password,
     });
     setAuthHeader(result.data.body.token);
-    console.log(result);
+    localStorage.setItem("isLogin", true);
     return result.data;
   } catch (error) {
+    message.error(
+      "LOGIN FAIL! Please recheck email adress and password and try again."
+    );
     const errMessage = error.response.data.message;
     return thunkAPI.rejectWithValue(errMessage);
   }
@@ -38,10 +42,16 @@ export const registerUser = createAsyncThunk(
         email,
         firstName,
         lastName,
-        password
+        password,
       });
-      setAuthHeader(result.data.body.token);
-      console.log(result);
+
+      if (result.data?.statusCodeValue === 400) {
+        message.error("REGISTER FAIL! Email is already taken!");
+      } else {
+        setAuthHeader(result.data.body.token);
+        localStorage.setItem("isLogin", true);
+      }
+      //console.log(result);
       return result.data; //payload
     } catch (error) {
       const errMessage = error.result.data.message;
@@ -50,12 +60,14 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state, action) => {
+      clearAuthHeader();
+    },
+  },
   extraReducers: {
     //Login
     [login.pending]: (state, action) => {
@@ -64,6 +76,8 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
+      state.token = action.payload.body.token;
+      localStorage.setItem("token", JSON.stringify(state.token));
       state.error = false;
     },
     [login.rejected]: (state, action) => {
@@ -84,10 +98,9 @@ const authSlice = createSlice({
       state.error = true;
     },
     //Verify
-   
   },
 });
 
-export const {} = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

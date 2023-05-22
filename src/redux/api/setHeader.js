@@ -7,5 +7,5 @@ export const setAuthHeader = (token) => {
 };
 
 export const clearAuthHeader = () => {
-    delete api.defaults.headers.common["authorization"];
+    delete api.defaults.headers.common["Authorization"];
 };
