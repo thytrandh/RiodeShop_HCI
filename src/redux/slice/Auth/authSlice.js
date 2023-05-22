@@ -18,7 +18,7 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
       email,
       password,
     });
-    setAuthHeader(result.data.body.token);
+    setAuthHeader(result.data.token);
     localStorage.setItem("isLogin", true);
     return result.data;
   } catch (error) {
@@ -44,16 +44,18 @@ export const registerUser = createAsyncThunk(
         lastName,
         password,
       });
-
-      if (result.data?.statusCodeValue === 400) {
-        message.error("REGISTER FAIL! Email is already taken!");
-      } else {
-        setAuthHeader(result.data.body.token);
-        localStorage.setItem("isLogin", true);
-      }
-      //console.log(result);
+      // if (result.data?.statusCodeValue === 400) {
+      //   message.error("REGISTER FAIL! Email is already taken");
+      // } else {
+      //   setAuthHeader(result.data.body.token);
+      //   localStorage.setItem("isLogin", true);
+      // }
+      setAuthHeader(result.data.token);
+      localStorage.setItem("isLogin", true);
+      console.log(result.data);
       return result.data; //payload
     } catch (error) {
+      message.error("REGISTER FAIL! Please check again");
       const errMessage = error.result.data.message;
       return thunkAPI.rejectWithValue(errMessage);
     }
@@ -99,6 +101,6 @@ const authSlice = createSlice({
   },
 });
 
-export const {logout} = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
