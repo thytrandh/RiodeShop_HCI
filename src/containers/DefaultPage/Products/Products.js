@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import "../../../assets/css/product.css";
-// import "../css/owl.theme.default.min.css";
-// import "../css/owl.theme.default.min.css";
 import "../../../assets/css/style.css";
 import "../../../assets/css/reset.css";
 import Fade from "react-reveal/Fade";
@@ -17,20 +15,25 @@ import {
   decrement,
   addCart,
   listOrder,
+  updateCart,
 } from "../../../redux/slice/Cart/cartSlice";
+import { ToastContainer, toast } from "react-toastify";
 const Products = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const [active, setActive] = useState("description");
+  const [productQuantity, setProductQuantity] = useState(1);
   const { productId } = useParams();
   useEffect(() => {
     dispatch(getProductById(productId));
   }, [dispatch, productId]);
   const count = useSelector((state) => state.cart.count);
-  const { items, loading, error } = useSelector((state) => state.cart);
+  const { cartItems, items, loading, error } = useSelector(
+    (state) => state.cart
+  );
   const productItem = { ...items, isChecked: true, quantity: 1 };
-  console.log(items);
+  console.log(cartItems);
   // const product = {
   //   id: items.id,
   //   productName: items.productName,
@@ -44,24 +47,39 @@ const Products = () => {
   //   dispatch(fetchProductRelated(product));
   // }, [dispatch]);
 
-  console.log(productItem);
+  // console.log(productItem);
   const handleIncrement = () => {
-    dispatch(increment());
+    setProductQuantity(productQuantity + 1);
   };
   const handleDecrement = () => {
-    dispatch(decrement());
+    if (productQuantity > 1) setProductQuantity(productQuantity - 1);
   };
   const handleAddToCart = (product) => {
+    let quantityExist = 0;
+    const existingIndex = cartItems.findIndex(
+      (item) => item.product === items.id
+    );
+    if (existingIndex >= 0) {
+      quantityExist = cartItems[existingIndex].quantity;
+    }
     const productCart = {
+      id: cartItems[existingIndex].id,
       product: product.id,
-      quantity: count,
+      quantity: productQuantity + quantityExist,
       totalPrice: product.price,
       size: "M",
       color: "Mint",
       account: "1",
     };
     if (token) {
-      dispatch(addCart(productCart));
+      if (existingIndex >= 0) {
+        dispatch(updateCart(productCart));
+        toast.info(`Added ${productQuantity} product into your cart`, {
+          position: "bottom-right",
+        });
+      } else {
+        dispatch(addCart(productCart));
+      }
     } else {
       Navigate("/auth/login");
     }
@@ -69,6 +87,7 @@ const Products = () => {
 
   return (
     <div className="mx-5">
+      <ToastContainer />
       <div data-id="" className="product-id render-info-product">
         <div className="container flex">
           <div className="product-img flex">
@@ -174,7 +193,9 @@ const Products = () => {
                     >
                       -
                     </button>
-                    <div className="mx-4 w-8 text-center">{count}</div>
+                    <div className="mx-4 w-8 text-center">
+                      {productQuantity}
+                    </div>
                     <button
                       className="quanity-plus w-10"
                       onClick={handleIncrement}
@@ -399,11 +420,13 @@ const Products = () => {
           </h2>
           <div className="grid grid-cols-5 gap-5 h-72 place-items-center my-7">
             <div className="h-full w-full">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="w-full h-56 rounded-sm drop-shadow-lg"
-              ></img>
+              <div className="group drop-shadow-xl text-lg h-56 rounded-lg relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                  alt=""
+                  className="w-full h-56 rounded-sm drop-shadow-lg object-cover transition-transform duration-500 group-hover:scale-110"
+                ></img>
+              </div>
               <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
                 Solid pattern in fashion
               </div>

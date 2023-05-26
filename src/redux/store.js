@@ -11,6 +11,8 @@ const store = configureStore({
     user: userSlice,
     account: accountSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

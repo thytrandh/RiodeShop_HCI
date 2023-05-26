@@ -66,7 +66,7 @@ const Cart = () => {
     }
   };
   const handleIncreaseCart = (cartItem) => {
-    if (cartItem.quantity < cartItem.stock.product.quantity) {
+    if (cartItem.quantity < cartItem.stock.quantity) {
       const productCart = {
         id: cartItem.id,
         product: cartItem.product,
@@ -176,7 +176,7 @@ const Cart = () => {
                   </div>
                   <div
                     className="col-start-3 col-span-3 ml-5 text-sm font-medium text-gray-700 text-left cursor-pointer"
-                    onClick={() => Navigate(`/products/${cartItem.id}`)}
+                    onClick={() => Navigate(`/products/${cartItem.product}`)}
                   >
                     {cartItem.stock.product.productName}
                   </div>

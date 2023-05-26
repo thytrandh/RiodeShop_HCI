@@ -165,23 +165,14 @@ const cartSlice = createSlice({
       });
       // localStorage.setItem("orderItems", JSON.stringify(state.orderItems));
     },
-    increment: (state) => ({
-      ...state,
-      count: state.count + 1,
-    }),
-    decrement: (state) => ({
-      ...state,
-      count: state.count > 1 ? state.count - 1 : state.count,
-    }),
     addToCart(state, action) {
       const existingIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.product
       );
       if (existingIndex >= 0) {
         state.cartItems[existingIndex] = {
           ...state.cartItems[existingIndex],
-          cartQuantity:
-            state.cartItems[existingIndex].cartQuantity + state.count,
+          quantity: state.cartItems[existingIndex].quantity + state.count,
         };
         toast.info(`Đã thêm ${state.count} quyển vào giỏ`, {
           position: "bottom-right",
@@ -263,7 +254,7 @@ const cartSlice = createSlice({
       state.loading = true;
     },
     [fetchProductRelated.fulfilled]: (state, { payload }) => {
-      state.items = payload.data;
+      state.productRelated = payload.data;
       state.loading = false;
     },
     [fetchProductRelated.rejected]: (state, action) => {
@@ -302,16 +293,6 @@ const cartSlice = createSlice({
     [addCart.fulfilled]: (state, { payload }) => {
       console.log(payload);
       state.message = payload.message;
-      state.check = payload.checked;
-      if (payload.duplicate) {
-        toast.info(`Đã thêm ${state.count} quyển vào giỏ`, {
-          position: "bottom-right",
-        });
-      } else {
-        toast.success("Sản phẩm đã được thêm vào giỏ", {
-          position: "bottom-right",
-        });
-      }
     },
     [addCart.rejected]: (state, { payload }) => {
       state.loading = true;
