@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
+import { message } from "antd";
 
 const initialState = {
-  currentUser: null,
+  currentAccount: null,
   loading: false,
   error: false,
 };
@@ -10,20 +11,25 @@ const initialState = {
 export const updateUser = createAsyncThunk(
   "account/updateUser",
   async (data, thunkAPI) => {
-    const { id, address, gender, firstName, lastName, email } = data;
+    const { id, email, firstName, lastName } = data;
+
+    const role= "USER";
+    const active = true;
 
     try {
-      const result = await api.put("/api/v1/user", {
+      const result = await api.put("/api/v1/update-account", {
         id,
-        address,
-        gender,
+        email,
         firstName,
         lastName,
-        email
+        role,
+        active
       });
-    //   console.log(result.data);
+      message.success("Update successfully!");
+      console.log(result.data);
       return result.data;
     } catch (error) {
+      message.error("Update fail!");
       return thunkAPI.rejectWithValue("Error when fetching user information");
     }
   }
@@ -39,7 +45,7 @@ const accountSlice = createSlice({
     },
     [updateUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.currentUser = action.payload;
+      state.currentAccount = action.payload;
       state.error = false;
     },
     [updateUser.rejected]: (state, action) => {
@@ -51,5 +57,3 @@ const accountSlice = createSlice({
 
 export const {} = accountSlice.actions;
 export default accountSlice.reducer;
-
-

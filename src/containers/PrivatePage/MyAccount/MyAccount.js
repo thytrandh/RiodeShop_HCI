@@ -4,14 +4,22 @@ import "../MyAccount/MyAccount.scss";
 import Dashboard from "../MyAccount/SubPage/Dashboard/Dashboard";
 import ProfileSettings from "./SubPage/ProfileSettings/ProfileSettings";
 import MyOrders from "./SubPage/MyOrders/MyOrders";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/slice/Auth/authSlice";
 
 const MyAccount = () => {
-  const userName = "dhthytran";
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
+
+  const idUser = userData?.id;
+  const userName = userData?.firstName + " " + userData?.lastName;
+  const firstName = userData?.firstName;
+  const lastName = userData?.lastName;
+  const email = userData?.email;
 
   const [show1, setShow1] = useState(true);
   const [show2, setShow2] = useState(false);
@@ -50,6 +58,10 @@ const MyAccount = () => {
     navigate("/auth/login");
   };
 
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem("userData")));
+  }, []);
+
   return (
     <div className="my-account-page">
       <TopBanner page={"MY ACCOUNT"} />
@@ -83,7 +95,12 @@ const MyAccount = () => {
             {/* <div className="btn-item">
               <p className="mb-0">Reset Password</p>
             </div> */}
-            <div className="btn-item" onClick={() => {handleLogout()}}>
+            <div
+              className="btn-item"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
               <p className="mb-0">Logout</p>
             </div>
           </div>
@@ -94,11 +111,19 @@ const MyAccount = () => {
             </div>
             <div className={show2 ? "animate-to" : "animate-from"}>
               {" "}
-              {show2 && <ProfileSettings />}
+              {show2 && <MyOrders />}
             </div>
             <div className={show3 ? "animate-to" : "animate-from"}>
               {" "}
-              {show3 && <MyOrders />}
+              {show3 && (
+                <ProfileSettings
+                  idUser={idUser}
+                  userName={userName}
+                  firstName={firstName}
+                  lastName={lastName}
+                  email={email}
+                />
+              )}
             </div>
           </div>
         </div>

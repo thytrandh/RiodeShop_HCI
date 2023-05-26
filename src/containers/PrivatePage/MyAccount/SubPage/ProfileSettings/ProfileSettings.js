@@ -1,22 +1,40 @@
 import { useForm } from "react-hook-form";
+import { updateUser } from "../../../../../redux/slice/Account/accountSlice";
+import { useDispatch } from "react-redux";
 
-const ProfileSettings = () => {
-  //   const initialValues = {
-  //     username: `${userData?.username}`,
-  //     address: `${userData?.address}`,
-  //     gender: `${userData?.gender}`,
-  //     birthday: `${userData?.birthday}`,
-  //   };
+const ProfileSettings = ({ idUser, userName, firstName, lastName, email }) => {
+  const initialValues = {
+    userName: `${userName}`,
+    firstName: `${firstName}`,
+    lastName: `${lastName}`,
+    email: `${email}`,
+    //address: `${userData?.address}`,
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    //defaultValues: initialValues,
+    defaultValues: initialValues,
   });
 
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
+    const { email, firstName, lastName } = data;
+
+    const id = idUser;
+
+    dispatch(
+      updateUser({
+        id,
+        email,
+        firstName,
+        lastName,
+      })
+    );
+
     console.log(data);
   };
   return (
@@ -26,13 +44,13 @@ const ProfileSettings = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="group-input form-floating">
             <textarea
-              id="customerNameInput"
+              id="userNameInput"
               className="form-control"
-              placeholder="Customer Name"
+              placeholder="Username"
               type="text"
-              {...register("customerName")}
+              {...register("userName")}
             />
-            <label for="customerNameInput">Customer Name</label>
+            <label for="userNameInput">Username</label>
           </div>
 
           <div className="d-flex">
