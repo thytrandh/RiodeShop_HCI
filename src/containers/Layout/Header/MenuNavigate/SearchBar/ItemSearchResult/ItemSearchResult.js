@@ -1,8 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import "../ItemSearchResult/ItemSearchResult.scss";
 
-const ItemSearchResult = ({imgProduct, productName, price}) => {
+const ItemSearchResult = ({ idProduct, imgProduct, productName, price }) => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(`/products/${idProduct}`, { replace: true });
+  };
+
   return (
-    <div className="item-search-result">
+    <div
+      className="item-search-result"
+      onClick={() => {
+        handleNavigate();
+      }}
+    >
       <div className="img-product mr-2">
         <img src={imgProduct} alt="" />
       </div>
@@ -11,7 +22,7 @@ const ItemSearchResult = ({imgProduct, productName, price}) => {
           <p className="mb-1">{productName}</p>
         </div>
         <div className="price">
-          <p className="mb-0">{price}</p>
+          <p className="mb-0">{price}.00 VND</p>
         </div>
       </div>
     </div>

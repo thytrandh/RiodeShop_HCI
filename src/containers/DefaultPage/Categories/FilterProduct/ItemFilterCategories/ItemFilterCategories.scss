@@ -1,5 +1,8 @@
 .item-filter-categories {
     .menu {
+        a{
+            text-decoration: none;
+        }
         animation: animateBackInTopMenu 0.5s 0s forwards;
         transition: all 0.5s ease;
         p {

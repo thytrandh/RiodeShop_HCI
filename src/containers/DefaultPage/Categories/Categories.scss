@@ -1,3 +1,6 @@
+@import "../../../assets/scss/media";
+
+
 .categories-page {
     display: flex;
     flex-direction: column;
@@ -7,12 +10,11 @@
     //height: 500vh;
     .container {
         margin-top: 2rem;
-        //background-color: aquamarine;
+
         .body-content {
             width: 100%;
             .slider-bar {
                 padding-right: 30px;
-                //background-color: brown;
                 .path {
                     padding: 0px 0px 1.5rem 0px;
                     display: flex;
@@ -122,9 +124,7 @@
                 }
             }
             .right {
-                margin-top: 2.65rem;
-
-                //background-color: aquamarine;
+                //margin-top: 2.65rem;
 
                 .filter-grid {
                     display: flex;
@@ -138,14 +138,29 @@
                         color: var(--body-text);
                     }
                 }
+                .list-products {
+                    padding: 3rem 0px;
+                    .render-list-products {
+                        display: grid;
+                        grid-template-columns: repeat(1, 1fr);
+                        //grid-template-rows: repeat(5, 20vw);
+                        // grid-gap: 5px;
+                        grid-column-gap: 10px;
+                        grid-row-gap: 35px;
+                        @include lg {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+                        @include xl {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+                        @include xxl {
+                            grid-template-columns: repeat(4, 1fr);
+                        }
 
-                .render-list-products {
-                    // display: grid;
-                    // grid-template-columns: auto auto auto auto;
-
-                    > .item-product {
-                        padding: 0px 8px;
-                        //margin: 2rem 0px;
+                        > .item-product {
+                            //padding: 0px 8px;
+                            //margin: 2rem 0px;
+                        }
                     }
                 }
             }

@@ -18,7 +18,7 @@ const Menu = () => {
         </li>
         <li className="item-navigate item-menu-dropdown">
           <div className="title">
-            <Link to={CATEGORIES_PAGE} replace={false}>
+            <Link to={"/categories/allProduct/0/400"} replace={false}>
               <p className="mb-0">Categories</p>
             </Link>
             <i class="fa-solid fa-chevron-down"></i>
@@ -28,22 +28,22 @@ const Menu = () => {
               <div className="column">
                 <ul className="mb-0">
                   <li>
-                    <Link to={CATEGORIES_PAGE} replace={false}>
-                      <p className="mb-0">Shoses</p>
+                    <Link to={"/categories/Shoes/0/400"} replace={false}>
+                      <p className="mb-0">Shoes</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={CATEGORIES_PAGE} replace={false}>
+                    <Link to={"/categories/Bags/0/400"} replace={false}>
                       <p className="mb-0">Bags</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={CATEGORIES_PAGE} replace={false}>
-                      <p className="mb-0">Accesories</p>
+                    <Link to={"/categories/Accessories/0/400"} replace={false}>
+                      <p className="mb-0">Accessories</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={CATEGORIES_PAGE} replace={false}>
+                    <Link to={"/categories/Clothing/0/400"} replace={false}>
                       <p className="mb-0">Clothing</p>
                     </Link>
                   </li>

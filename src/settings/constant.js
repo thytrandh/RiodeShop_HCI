@@ -12,7 +12,7 @@ export const VERIFY_PAGE = "/auth/verify";
 
 export const HOME_PAGE = "/";
 
-export const CATEGORIES_PAGE = "/categories";
+export const CATEGORIES_PAGE = "/categories/:category/:price1/:price2";
 
 export const PRODUCTS_PAGE = "/products/:productId";
 

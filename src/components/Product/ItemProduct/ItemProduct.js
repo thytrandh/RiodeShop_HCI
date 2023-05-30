@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import "../ItemProduct/ItemProduct.scss";
 
 const ItemProduct = ({
-  listImgUrl,
-  discount,
+  imgProduct01,
+  imgProduct02,
+  categoryName,
   productName,
   price,
   rate,
@@ -19,10 +20,10 @@ const ItemProduct = ({
   return (
     <div className="item-product">
       <div className="img-product mb-3">
-        <img className="img-01" src={listImgUrl?.[0]} alt="" />
-        <img className="img-02" src={listImgUrl?.[1]} alt="" />
+        <img className="img-01" src={imgProduct01} alt="" />
+        <img className="img-02" src={imgProduct02} alt="" />
         <div className="badge">
-          <p className="mb-0">{discount}% OFF</p>
+          <p className="mb-0">{categoryName}</p>
         </div>
       </div>
       <div className="content">
@@ -30,7 +31,7 @@ const ItemProduct = ({
           <p className="mb-0">{productName}</p>
         </div>
         <div className="price ">
-          <p className="mb-0">{price}</p>
+          <p className="mb-0">{price}.00 VND</p>
         </div>
         <div className="point mb-3">
           <div className="rate mr-3">
