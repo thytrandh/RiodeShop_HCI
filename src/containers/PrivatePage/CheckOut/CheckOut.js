@@ -1,14 +1,58 @@
 import React, { useEffect, useState } from "react";
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Input from "../../../components/Input";
 import TextArea from "../../../components/TextArea";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { paypal } from "../../../redux/slice/Cart/cartSlice";
 const CheckOut = () => {
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [city, setCity] = useState(null);
+  console.log(selectedCountry);
+  console.log(selectedState);
+  console.log(selectedCity);
+  const country = Country.getCountryByCode("VN");
+  const state = State.getStateByCodeAndCountry("31", "VN");
+  const cities = City.getCitiesOfState("VN", "31");
+  useEffect(() => {
+    cities?.map((city) => {
+      if (city?.latitude === "14.50535000") {
+        setCity(city);
+      }
+    });
+  }, [cities]);
+  useEffect(() => {
+    setSelectedCountry(country);
+    setSelectedState(state);
+    setSelectedCity(city);
+  }, [country, state, city]);
+
+  const dispatch = useDispatch();
   const { orderItems, loading, error } = useSelector((state) => state.cart);
-  console.log(orderItems);
   const [total, setTotal] = useState(0);
+
+  const handlePayment = () => {
+    const orderPayment = {
+      account: 1,
+    };
+    const dataPaypal = {
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "USD",
+            value: total,
+          },
+        },
+      ],
+    };
+    dispatch(paypal(dataPaypal));
+  };
   useEffect(() => {
     let totalPrice = 0;
     orderItems.map((item) => {
@@ -35,9 +79,9 @@ const CheckOut = () => {
             initialValues={{
               firstName: "",
               lastName: "",
-              city: "",
-              district: "",
-              commune: "",
+              country: "",
+              state: "",
+              city: "aaa",
               address: "",
               phoneNumber: "",
             }}
@@ -64,29 +108,61 @@ const CheckOut = () => {
                       id="lastName"
                     ></Input>
                   </div>
-                  <div className="grid grid-cols-2 gap-x-3">
-                    <Input
-                      label="City"
-                      type="text"
-                      name="city"
-                      id="city"
-                    ></Input>
-                    <Input
-                      label="District"
-                      type="text"
-                      name="district"
-                      id="district"
-                    ></Input>
+                  <div className="grid grid-cols-2 gap-x-3 pb-3">
+                    <span className="text-sm text-gray-600">Country</span>
+                    <span className="text-sm text-gray-600">State</span>
+                    <Select
+                      name="country"
+                      options={Country.getAllCountries()}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedCountry}
+                      onChange={(item) => {
+                        setSelectedCountry(item);
+                      }}
+                    />
+                    <Select
+                      name="state"
+                      options={State?.getStatesOfCountry(
+                        selectedCountry?.isoCode
+                      )}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedState}
+                      onChange={(item) => {
+                        setSelectedState(item);
+                      }}
+                    />
                   </div>
                   <div className="grid grid-cols-2 gap-x-3">
+                    <span className="text-sm text-gray-600">City</span>
+                    <span className="text-sm text-gray-600">Phone</span>
+                    <Select
+                      name="city"
+                      options={City.getCitiesOfState(
+                        selectedState?.countryCode,
+                        selectedState?.isoCode
+                      )}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedCity}
+                      onChange={(item) => {
+                        setSelectedCity(item);
+                      }}
+                    />
                     <Input
-                      label="Commune"
-                      type="text"
-                      name="Commune"
-                      id="Commune"
-                    ></Input>
-                    <Input
-                      label="Phone"
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
@@ -98,13 +174,6 @@ const CheckOut = () => {
                     name="address"
                     id="address"
                   ></Input>
-                  <TextArea
-                    label="Order note"
-                    type="text"
-                    name="orderNote"
-                    id="orderNote"
-                    placeholder="write your notes..."
-                  ></TextArea>
                 </Form>
               );
             }}
@@ -114,30 +183,36 @@ const CheckOut = () => {
           <div className=" font-semibold">YOUR ORDER</div>
           <hr className="border-stone-700 my-4"></hr>
           <div className="mb-4 font-semibold">Product</div>
-          {orderItems &&
-            orderItems.map((items) => (
-              <div className="grid grid-cols-4 gap-4 text-sm h-20 items-center mb-4">
-                <img
-                  className="w-[85%] h-full rounded-lg"
-                  alt="product"
-                  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                ></img>
-                <div className="col-span-2">
-                  <div className="grid grid-rows-3 items-center gap-2 cursor-pointer">
-                    <div> {items.stock.product.productName}</div>
-                    <div>
-                      {items?.color}, {items?.size}
-                    </div>
-                    <div>x{items?.quantity}</div>
+          {orderItems?.map((items) => (
+            <div className="grid grid-cols-4 gap-4 text-sm items-center mb-4">
+              {items.stock?.product?.productImage?.map(
+                (item) =>
+                  item.isDefault === 1 && (
+                    <img
+                      className="w-[85%] h-20 rounded-lg"
+                      src={item.imageLink}
+                      alt=""
+                    />
+                  )
+              )}
+              <div className="col-span-2">
+                <div className="grid grid-rows-3 items-center gap-2 cursor-pointer">
+                  <div className="max-h-9 truncate ">
+                    {items.stock.product.productName}
                   </div>
-                </div>
-                <div className="font-medium text-[#ee4d2d]">
-                  ${items.totalPrice}
+                  <div className="max-h-6">
+                    {items?.color}, {items?.size}
+                  </div>
+                  <div>x{items?.quantity}</div>
                 </div>
               </div>
-            ))}
+              <div className="font-medium text-[#ee4d2d]">
+                ${items.totalPrice}
+              </div>
+            </div>
+          ))}
 
-          <hr className="border-stone-700 my-4"></hr>
+          <hr className="border-stone-700"></hr>
           <div className="grid grid-cols-4 gap-x-5 gap-y-1">
             <div className="font-semibold col-span-2">Subtotal</div>
             <div className="font-medium col-start-4 text-[#ee4d2d] text-lg">
@@ -148,9 +223,39 @@ const CheckOut = () => {
           </div>
           <hr className="border-stone-700 my-4"></hr>
           <div className="font-semibold col-span-2">Payment Method</div>
-          <button className="bg-green-500 p-2 text-sm font-medium text-white rounded-lg w-32 mt-4 hover:bg-green-600 transition-all">
-            PURCHASE
+          <button
+            onClick={() => {
+              handlePayment();
+            }}
+            className="bg-green-500 p-2 w-full h-11 text-md font-medium text-white rounded-sm my-3 hover:bg-green-600 transition-all"
+          >
+            Cash on delivery
           </button>
+          <PayPalScriptProvider
+            options={{
+              "client-id":
+                "AeWD3fwvHp7gJuRu6909KA4EljpDXDPjM24mLRhltHhEIjpOz3086I9XdZqpmSXCRX2uR-emlfUgj0ji",
+            }}
+          >
+            <PayPalButtons
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: "99.99",
+                      },
+                    },
+                  ],
+                });
+              }}
+              onApprove={async (data, actions) => {
+                const details = await actions.order.capture();
+                const name = details.payer.name.given_name;
+                alert("Transaction completed by " + name);
+              }}
+            />
+          </PayPalScriptProvider>
         </div>
       </div>
     </div>

@@ -22,32 +22,36 @@ const Products = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const Navigate = useNavigate();
+  const [selectImage, setSelectImage] = useState("");
+  const [color, setColor] = useState("");
   const [active, setActive] = useState("description");
   const [productQuantity, setProductQuantity] = useState(1);
   const { productId } = useParams();
   useEffect(() => {
     dispatch(getProductById(productId));
+    dispatch(fetchProductRelated(productId));
   }, [dispatch, productId]);
-  const count = useSelector((state) => state.cart.count);
-  const { cartItems, items, loading, error } = useSelector(
+  const { cartItems, items, productRelated } = useSelector(
     (state) => state.cart
   );
   const productItem = { ...items, isChecked: true, quantity: 1 };
-  console.log(cartItems);
-  // const product = {
-  //   id: items.id,
-  //   productName: items.productName,
-  //   price: items.price,
-  //   category: items.category,
-  //   type: items.type,
-  //   productImageId: items.productImageId,
-  //   description: items.description,
-  // };
-  // useEffect(() => {
-  //   dispatch(fetchProductRelated(product));
-  // }, [dispatch]);
+  console.log(productRelated);
+  useEffect(() => {
+    items?.productImage.map((item) => {
+      if (item.isDefault === 1) {
+        setSelectImage(item.imageLink);
+        setColor(item.color);
+      }
+    });
+  }, [items]);
 
-  // console.log(productItem);
+  const handleClick = (product) => {
+    Navigate(`/products/${product}`);
+    window.location.reload();
+  };
+  const handleZoom = (imageLink) => {
+    setSelectImage(imageLink);
+  };
   const handleIncrement = () => {
     setProductQuantity(productQuantity + 1);
   };
@@ -67,9 +71,9 @@ const Products = () => {
       product: product.id,
       quantity: productQuantity + quantityExist,
       totalPrice: product.price,
-      size: "M",
-      color: "Mint",
-      account: "1",
+      size: product.size,
+      color: color,
+      account: 4,
     };
     if (token) {
       if (existingIndex >= 0) {
@@ -90,37 +94,27 @@ const Products = () => {
       <ToastContainer />
       <div data-id="" className="product-id render-info-product">
         <div className="container flex">
-          <div className="product-img flex">
-            <div className="product-img-list flex-column j-between">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="img-widget-01 drop-shadow-lg "
-              />
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="img-widget-02 drop-shadow-lg "
-              />
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="img-widget-03 drop-shadow-lg "
-              />
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="img-widget-04 drop-shadow-lg "
-              />
+          {productItem && (
+            <div className="product-img flex">
+              <div className="product-img-list flex-column j-between">
+                {productItem?.productImage?.map((item) => (
+                  <img
+                    onClick={() => {
+                      handleZoom(item.imageLink);
+                    }}
+                    src={item.imageLink}
+                    alt=""
+                    className="img-widget-01 drop-shadow-lg hover:opacity-80 cursor-pointer"
+                  />
+                ))}
+              </div>
+              <div className="product-img-slider drop-shadow-lg cursor-pointer">
+                {selectImage && (
+                  <img src={selectImage} alt="" className="img-widget-01" />
+                )}
+              </div>
             </div>
-            <div className="product-img-slider drop-shadow-lg">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="img-widget-01 "
-              />
-            </div>
-          </div>
+          )}
           <Fade clear duration={1500}>
             <div className="product-info">
               <p className="product-navigation cursor-pointer">
@@ -163,13 +157,14 @@ const Products = () => {
 
                 <table className="variations">
                   <tr className="product-color flex a-center j-between">
-                    <th className="label">Color: {}</th>
+                    <th className="label">Color: {color}</th>
+
                     <th>
                       <div className="el-color"></div>
                     </th>
                   </tr>
                   <tr className="product-size flex a-center j-between">
-                    <th className="label">Size: {}</th>
+                    <th className="label">Size: {productItem?.size}</th>
                     <th>
                       <div className="el-size"></div>
                     </th>
@@ -287,26 +282,8 @@ const Products = () => {
                     <div className="features">
                       <h5>Features</h5>
                       <p>{productItem?.description}</p>
-                      <ul className="list-type-check">
-                        <li>
-                          <i className="far fa-check"></i>Praesent id enim sit
-                          amet.Tdio vulputate
-                        </li>
-                        <li>
-                          <i className="far fa-check"></i>Eleifend in in tortor.
-                          ellus massa.Dristique sitii
-                        </li>
-                        <li>
-                          <i className="far fa-check"></i>Massa ristique sit
-                          amet condim vel
-                        </li>
-                        <li>
-                          <i className="far fa-check"></i>Dilisis Facilisis quis
-                          sapien. Praesent id enim sit amet
-                        </li>
-                      </ul>
                     </div>
-                    <div className="specifications">
+                    {/* <div className="specifications">
                       <h5>Specifications</h5>
                       <table>
                         <tr>
@@ -329,16 +306,9 @@ const Products = () => {
                           <td>Praesent id enim</td>
                         </tr>
                       </table>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="description-video">
-                    {/* <h5>Video Description</h5>
-                <div className="features-img">
-                  <img src="images/Video/img.jpg" alt="" />
-                  <button className="btn-play-video">
-                    <i className="fal fa-play"></i>
-                  </button>
-                </div> */}
                     <div className="warranty-shipping-box a-center ">
                       <div className="icon-box flex a-center mb-5">
                         <button className="btn-click btn-lock flex">
@@ -377,7 +347,7 @@ const Products = () => {
                   </div>
                   <div className="grid grid-cols-8 gap-5 mb-3">
                     <p className="font-bold">Color:</p>
-                    <div className="col-span-7">{productItem?.color}</div>
+                    <div className="col-span-7">{color}</div>
                   </div>
                   <div className="grid grid-cols-8 gap-5 mb-3">
                     <p className="font-bold">Brands:</p>
@@ -419,63 +389,31 @@ const Products = () => {
             </span>
           </h2>
           <div className="grid grid-cols-5 gap-5 h-72 place-items-center my-7">
-            <div className="h-full w-full">
-              <div className="group drop-shadow-xl text-lg h-56 rounded-lg relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                <img
-                  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                  alt=""
-                  className="w-full h-56 rounded-sm drop-shadow-lg object-cover transition-transform duration-500 group-hover:scale-110"
-                ></img>
+            {productRelated?.slice(0, 5).map((product) => (
+              <div className="h-full w-full">
+                <div className="group drop-shadow-xl text-lg h-56 rounded-lg relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
+                  {product.productImage.map(
+                    (item) =>
+                      item.isDefault === 1 && (
+                        <img
+                          onClick={() => {
+                            handleClick(product.id);
+                          }}
+                          src={item.imageLink}
+                          alt=""
+                          className="w-full h-56 rounded-sm drop-shadow-lg object-cover transition-transform duration-500 group-hover:scale-110"
+                        ></img>
+                      )
+                  )}
+                </div>
+                <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto truncate">
+                  {product.productName}
+                </div>
+                <p className="font-bold text-center text-slate-900">
+                  ${product.price}
+                </p>
               </div>
-              <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
-                Solid pattern in fashion
-              </div>
-              <p className="font-bold text-center text-slate-900">$ 140.00</p>
-            </div>
-            <div className="h-full w-full">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="w-full h-56 rounded-sm drop-shadow-lg"
-              ></img>
-              <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
-                Solid pattern in fashion
-              </div>
-              <p className="font-bold text-center text-slate-900">$ 140.00</p>
-            </div>
-            <div className="h-full w-full">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="w-full h-56 rounded-sm drop-shadow-lg"
-              ></img>
-              <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
-                Solid pattern in fashion
-              </div>
-              <p className="font-bold text-center text-slate-900">$ 140.00</p>
-            </div>
-            <div className="h-full w-full">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="w-full h-56 rounded-sm drop-shadow-lg"
-              ></img>
-              <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
-                Solid pattern in fashion
-              </div>
-              <p className="font-bold text-center text-slate-900">$ 140.00</p>
-            </div>
-            <div className="h-full w-full">
-              <img
-                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                alt=""
-                className="w-full h-56 rounded-sm drop-shadow-lg"
-              ></img>
-              <div className="font-semibold w-[90%] text-slate-700 text-center text-sm pt-2 mx-auto">
-                Solid pattern in fashion
-              </div>
-              <p className="font-bold text-center text-slate-900">$ 140.00</p>
-            </div>
+            ))}
           </div>
         </div>
       </Fade>

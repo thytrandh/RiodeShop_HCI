@@ -19,6 +19,7 @@ const initialState = {
   error: false,
   paypalLink: "",
 };
+
 export const getProductById = createAsyncThunk(
   "getProductById",
   async (data, thunkAPI) => {
@@ -35,7 +36,7 @@ export const fetchProductRelated = createAsyncThunk(
   "fetchProductRelated",
   async (data, thunkAPI) => {
     try {
-      const result = await api.get("/api/v1/suggest-product", data);
+      const result = await api.get(`/api/v1/suggest-product?id=${data}`);
       return result.data;
     } catch (error) {
       const errMessage = error.response.data.message;
@@ -61,23 +62,10 @@ export const addCart = createAsyncThunk("addcart", async (data, thunkAPI) => {
     return thunkAPI.rejectWithValue(errMessage);
   }
 });
-// export const addCart = createAsyncThunk("addcart", async (body) => {
-//   console.log(body);
-//   const res = await fetch("http://localhost:5000/api/cart/add", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: localStorage.getItem("token"),
-//     },
-//     body: JSON.stringify(body),
-//   });
-//   return await res.json();
-// });
 export const updateCart = createAsyncThunk(
   "updatecart",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
       const result = await api.put(
         `/api/v1/update-cart-item?cartItemID=${data.id}`,
         data
@@ -91,7 +79,7 @@ export const updateCart = createAsyncThunk(
 );
 export const removeCart = createAsyncThunk("removecart", async (body) => {
   const res = await fetch(
-    `http://localhost:5000/api/v1/delete-cart-item?cartItemID=${body.id}`,
+    `https://onlineshophci.herokuapp.com/api/v1/delete-cart-item?cartItemID=${body.id}`,
     {
       method: "DELETE",
       headers: {
@@ -102,6 +90,16 @@ export const removeCart = createAsyncThunk("removecart", async (body) => {
   );
   return await res.json();
 });
+
+// export const createOrder = createAsyncThunk("createOrder", async (data, thunkAPI) => {
+//   try {
+//     const result = await api.post("/api/v1/add-cart-item", data);
+//     return result.data;
+//   } catch (error) {
+//     const errMessage = error.response.data.message;
+//     return thunkAPI.rejectWithValue(errMessage);
+//   }
+// });
 export const payOrder = createAsyncThunk("payorder", async (body) => {
   const res = await fetch("http://localhost:5000/api/cart/order", {
     method: "POST",
@@ -114,11 +112,10 @@ export const payOrder = createAsyncThunk("payorder", async (body) => {
   return await res.json();
 });
 export const paypal = createAsyncThunk("paypal", async (body) => {
-  const res = await fetch("http://localhost:5000/api/payment/paypal", {
+  const res = await fetch("http://localhost:5000/api/v1/checkout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
     },
     body: JSON.stringify(body),
   });
@@ -163,7 +160,7 @@ const cartSlice = createSlice({
         if (item.isChecked) state.orderItems.push(item);
         return state;
       });
-      // localStorage.setItem("orderItems", JSON.stringify(state.orderItems));
+      localStorage.setItem("orderItems", JSON.stringify(state.orderItems));
     },
     addToCart(state, action) {
       const existingIndex = state.cartItems.findIndex(
@@ -279,6 +276,8 @@ const cartSlice = createSlice({
     },
     [cartFetch.fulfilled]: (state, { payload }) => {
       state.cartItems = payload.data;
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+
       state.loading = false;
       state.error = false;
     },
@@ -338,13 +337,20 @@ const cartSlice = createSlice({
       state.loading = true;
     },
     [paypal.fulfilled]: (state, { payload }) => {
-      console.log(payload);
-      state.paypalLink = payload.payment_link;
-      window.open(state.paypalLink, "Payment with PayPal");
+      // console.log(payload);
+      // state.paypalLink = payload.payment_link;
+      // window.open(state.paypalLink, "Payment with PayPal");
+      state.loading = false;
+      state.paypalLink = payload.links;
+      state.paypalLink.map((item) => {
+        if (item.rel === "approve") {
+          window.open(item.href, "Payment with PayPal");
+        }
+      });
     },
     [paypal.rejected]: (state, { payload }) => {
       state.loading = true;
-      state.checked = payload.checked;
+      // state.checked = payload.checked;
     },
   },
 });

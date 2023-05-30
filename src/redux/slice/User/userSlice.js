@@ -10,15 +10,14 @@ export const getUser = createAsyncThunk(
   "user/getUser",
   async (data, thunkAPI) => {
     try {
-      const result = await api.get("/api/v1/get-customer-info");
-      // console.log(result.data);
+      const result = await api.get("/api/v1/currentUser");
+      localStorage.setItem("userData", JSON.stringify(result.data));
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");
     }
   }
 );
-
 
 const userSlice = createSlice({
   name: "user",
@@ -36,8 +35,7 @@ const userSlice = createSlice({
     [getUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = true;
-    }
-  
+    },
   },
 });
 

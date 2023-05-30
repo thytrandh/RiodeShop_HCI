@@ -14,7 +14,7 @@ const Input = ({ label, ...props }) => {
         {label}
       </label>
       <input
-        className={`pl-2 border !border-gray-300 h-8 rounded-lg outline-none text-sm ${
+        className={`pl-2 border !border-gray-300 h-[38px] rounded-lg outline-none text-sm ${
           meta.touched && meta.error && "!border-red-500"
         }`}
         // autoComplete="off"

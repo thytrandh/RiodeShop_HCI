@@ -8,6 +8,7 @@ import { registerUser } from "../../../redux/slice/Auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "../Login/Login";
 import { Alert, Space, message } from "antd";
+import { getUser } from "../../../redux/slice/User/userSlice";
 
 const Register = () => {
   const [values, setValues] = useState({});
@@ -54,6 +55,7 @@ const Register = () => {
   useEffect(() => {
     if (isLogin) {
       navigate("/private/my-account");
+      dispatch(getUser());
     }
   }, [isLogin]);
 
