@@ -15,11 +15,17 @@ const ListProduct = ({ listProduct }) => {
 
   return (
     <div className="list-products list-products-render container">
-      <Carousel itemPadding={[0, 7]} breakPoints={breakPoints} showArrows={false} pagination={false}>
+      <Carousel
+        itemPadding={[0, 7]}
+        breakPoints={breakPoints}
+        showArrows={false}
+        pagination={false}
+      >
         {listProduct &&
           listProduct.map((product) => (
             <ItemProduct
               key={product.id}
+              idProduct={product.id}
               imgProduct01={product?.productImage[0]?.imageLink}
               imgProduct02={product?.productImage[1]?.imageLink}
               categoryName={product?.category?.categoryName}

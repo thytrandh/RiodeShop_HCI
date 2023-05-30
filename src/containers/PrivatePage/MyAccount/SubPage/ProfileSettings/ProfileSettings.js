@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { updateUser } from "../../../../../redux/slice/Account/accountSlice";
 import { useDispatch } from "react-redux";
+import { Country, State, City } from "country-state-city";
+import { useEffect, useState } from "react";
+import Select from "react-select";
 
 const ProfileSettings = ({ idUser, userName, firstName, lastName, email }) => {
   const initialValues = {
@@ -37,6 +40,30 @@ const ProfileSettings = ({ idUser, userName, firstName, lastName, email }) => {
 
     console.log(data);
   };
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [city, setCity] = useState(null);
+  console.log(selectedCountry);
+  console.log(selectedState);
+  console.log(selectedCity);
+  const country = Country.getCountryByCode("VN");
+  const state = State.getStateByCodeAndCountry("31", "VN");
+  const cities = City.getCitiesOfState("VN", "31");
+  useEffect(() => {
+    cities?.map((city) => {
+      if (city?.latitude === "14.50535000") {
+        setCity(city);
+      }
+    });
+  }, [cities]);
+  useEffect(() => {
+    setSelectedCountry(country);
+    setSelectedState(state);
+    setSelectedCity(city);
+  }, [country, state, city]);
+
   return (
     <div className="account-settings-content">
       <p className="title mb-0">Profile Setting</p>
@@ -108,6 +135,63 @@ const ProfileSettings = ({ idUser, userName, firstName, lastName, email }) => {
             />
             <label for="phoneNumberInput">Phone Number</label>
           </div>
+
+          <div className="group-input form-floating">
+            <Select
+              class="form-select"
+              name="country"
+              options={Country.getAllCountries()}
+              getOptionLabel={(options) => {
+                return options["name"];
+              }}
+              getOptionValue={(options) => {
+                return options["name"];
+              }}
+              value={selectedCountry}
+              onChange={(item) => {
+                setSelectedCountry(item);
+              }}
+            />
+          </div>
+          <div className="group-input form-floating">
+            <Select
+              class="form-select"
+              name="state"
+              options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+              getOptionLabel={(options) => {
+                return options["name"];
+              }}
+              getOptionValue={(options) => {
+                return options["name"];
+              }}
+              value={selectedState}
+              onChange={(item) => {
+                setSelectedState(item);
+              }}
+            />
+          </div>
+
+          <div className="group-input form-floating">
+            <Select
+              class="form-select"
+              name="city"
+              options={City.getCitiesOfState(
+                selectedState?.countryCode,
+                selectedState?.isoCode
+              )}
+              getOptionLabel={(options) => {
+                return options["name"];
+              }}
+              getOptionValue={(options) => {
+                return options["name"];
+              }}
+              value={selectedCity}
+              onChange={(item) => {
+                setSelectedCity(item);
+              }}
+            />
+          </div>
+
           <div className="footer-btn pt-3">
             <button className="btn-save-change">
               <p className="mb-0">SAVE CHANGES</p>

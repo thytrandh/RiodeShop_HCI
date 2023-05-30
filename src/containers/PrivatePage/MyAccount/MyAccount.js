@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/slice/Auth/authSlice";
 
+
 const MyAccount = () => {
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("userData"))
@@ -61,6 +62,9 @@ const MyAccount = () => {
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem("userData")));
   }, []);
+
+  
+  
 
   return (
     <div className="my-account-page">

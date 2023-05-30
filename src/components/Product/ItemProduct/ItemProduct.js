@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "../ItemProduct/ItemProduct.scss";
+import { useNavigate } from "react-router-dom";
 
 const ItemProduct = ({
+  idProduct,
   imgProduct01,
   imgProduct02,
   categoryName,
@@ -17,8 +19,19 @@ const ItemProduct = ({
 
   const arrStar = [1, 2, 3, 4, 5];
   arrStar.splice(0, rate);
+
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(`/products/${idProduct}`, { replace: true });
+  };
+
   return (
-    <div className="item-product">
+    <div
+      className="item-product"
+      onClick={() => {
+        handleNavigate();
+      }}
+    >
       <div className="img-product mb-3">
         <img className="img-01" src={imgProduct01} alt="" />
         <img className="img-02" src={imgProduct02} alt="" />

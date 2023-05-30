@@ -49,6 +49,7 @@ const Login = () => {
       dispatch(getUser());
     }
   }, [isLogin]);
+  
 
   return (
     <div className="auth-page">

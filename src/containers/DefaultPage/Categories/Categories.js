@@ -17,6 +17,15 @@ const Categories = () => {
   const rate = 3;
   const diverse = true;
 
+  const productSuggest = useSelector(
+    (state) => state.product.listProductSuggest
+  );
+  const productSuggestData = [];
+  productSuggestData.push(productSuggest[0]);
+  productSuggestData.push(productSuggest[1]);
+  productSuggestData.push(productSuggest[2]);
+  productSuggestData.push(productSuggest[3]);
+
   const listProduct = JSON.parse(localStorage.getItem("productData"));
   const dispatch = useDispatch();
 
@@ -84,32 +93,22 @@ const Categories = () => {
               <div className="title">
                 <p className="mb-0">Recommend</p>
               </div>
-              {/* <div className="list-product mt-4">
-                <ItemProduct
-                  listImgUrl={listImgUrl}
-                  discount={discount}
-                  productName={productName}
-                  price={price}
-                  rate={rate}
-                  diverseProduct={false}
-                />
-                <ItemProduct
-                  listImgUrl={listImgUrl2}
-                  discount={discount}
-                  productName={productName}
-                  price={price}
-                  rate={rate}
-                  diverseProduct={false}
-                />
-                <ItemProduct
-                  listImgUrl={listImgUrl3}
-                  discount={discount}
-                  productName={productName}
-                  price={price}
-                  rate={rate}
-                  diverseProduct={false}
-                />
-              </div> */}
+              <div className="list-product mt-4">
+                {productSuggestData &&
+                  productSuggestData.map((product) => (
+                    <ItemProduct
+                      key={product.id}
+                      idProduct={product.id}
+                      imgProduct01={product?.productImage[0]?.imageLink}
+                      imgProduct02={product?.productImage[1]?.imageLink}
+                      categoryName={product?.category?.categoryName}
+                      productName={product?.productName}
+                      price={product?.price}
+                      rate={rate}
+                      diverseProduct={false}
+                    />
+                  ))}
+              </div>
             </div>
           </div>
           <div className="right col-md-12 col-lg-9">
@@ -134,6 +133,7 @@ const Categories = () => {
                   filterProductData.map((product) => (
                     <ItemProduct
                       key={product.id}
+                      idProduct={product.id}
                       imgProduct01={product?.productImage[0]?.imageLink}
                       imgProduct02={product?.productImage[1]?.imageLink}
                       categoryName={product?.category?.categoryName}
