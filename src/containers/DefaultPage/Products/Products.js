@@ -10,22 +10,21 @@ import { useState } from "react";
 import {
   fetchProductRelated,
   getProductById,
-  addToCart,
-  increment,
-  decrement,
   addCart,
-  listOrder,
   updateCart,
 } from "../../../redux/slice/Cart/cartSlice";
 import { ToastContainer, toast } from "react-toastify";
 const Products = () => {
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const [selectImage, setSelectImage] = useState("");
   const [color, setColor] = useState("");
   const [active, setActive] = useState("description");
   const [productQuantity, setProductQuantity] = useState(1);
+  const [existingId, setExistingId] = useState(0);
+
   const { productId } = useParams();
   useEffect(() => {
     dispatch(getProductById(productId));
@@ -35,7 +34,7 @@ const Products = () => {
     (state) => state.cart
   );
   const productItem = { ...items, isChecked: true, quantity: 1 };
-  console.log(productRelated);
+  console.log(cartItems);
   useEffect(() => {
     items?.productImage.map((item) => {
       if (item.isDefault === 1) {
@@ -67,22 +66,28 @@ const Products = () => {
       quantityExist = cartItems[existingIndex].quantity;
     }
     const productCart = {
-      id: cartItems[existingIndex].id,
       product: product.id,
       quantity: productQuantity + quantityExist,
       totalPrice: product.price,
       size: product.size,
       color: color,
-      account: 4,
+      account: user.id,
     };
     if (token) {
       if (existingIndex >= 0) {
-        dispatch(updateCart(productCart));
+        const productCartUpdate = {
+          ...productCart,
+          id: cartItems[existingIndex].id,
+        };
+        dispatch(updateCart(productCartUpdate));
         toast.info(`Added ${productQuantity} product into your cart`, {
           position: "bottom-right",
         });
       } else {
         dispatch(addCart(productCart));
+        toast.info(`Added ${productQuantity} product into your cart`, {
+          position: "bottom-right",
+        });
       }
     } else {
       Navigate("/auth/login");

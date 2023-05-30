@@ -7,15 +7,13 @@ import Input from "../../../components/Input";
 import TextArea from "../../../components/TextArea";
 import { useDispatch, useSelector } from "react-redux";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { paypal } from "../../../redux/slice/Cart/cartSlice";
+import { paypal, createOrder } from "../../../redux/slice/Cart/cartSlice";
 const CheckOut = () => {
+  const user = JSON.parse(localStorage.getItem("userData"));
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [city, setCity] = useState(null);
-  console.log(selectedCountry);
-  console.log(selectedState);
-  console.log(selectedCity);
   const country = Country.getCountryByCode("VN");
   const state = State.getStateByCodeAndCountry("31", "VN");
   const cities = City.getCitiesOfState("VN", "31");
@@ -31,15 +29,51 @@ const CheckOut = () => {
     setSelectedState(state);
     setSelectedCity(city);
   }, [country, state, city]);
-
   const dispatch = useDispatch();
   const { orderItems, loading, error } = useSelector((state) => state.cart);
   const [total, setTotal] = useState(0);
+  useEffect(() => {
+    let totalPrice = 0;
+    orderItems.map((item) => {
+      totalPrice += item.totalPrice * item.quantity;
+      return totalPrice;
+    });
+    setTotal(totalPrice);
+  }, [orderItems]);
+
+  useEffect(() => {
+    const address = {
+      country_id: selectedCountry?.isoCode,
+      country_name: selectedCountry?.name,
+      state_id: selectedState?.isoCode,
+      state_name: selectedState?.name,
+      city_id: selectedCity?.latitude,
+      city_name: selectedCity?.name,
+      detailAddress: "6 Vo Van Ngan,Thu Duc",
+    };
+    const orderDetail = {
+      account: user.id,
+      receiverName: "Quoc Anh",
+      receiverPhoneNumber: "0997888666",
+      address: { ...address },
+      deliveryChargers: 3,
+      totalPrice: total,
+      status: 3,
+    };
+    dispatch(createOrder(orderDetail));
+  }, [
+    dispatch,
+    selectedCountry?.isoCode,
+    selectedCountry?.name,
+    selectedState?.isoCode,
+    selectedState?.name,
+    selectedCity?.latitude,
+    selectedCity?.name,
+    user.id,
+    total,
+  ]);
 
   const handlePayment = () => {
-    const orderPayment = {
-      account: 1,
-    };
     const dataPaypal = {
       intent: "CAPTURE",
       purchase_units: [
@@ -53,14 +87,7 @@ const CheckOut = () => {
     };
     dispatch(paypal(dataPaypal));
   };
-  useEffect(() => {
-    let totalPrice = 0;
-    orderItems.map((item) => {
-      totalPrice += item.totalPrice * item.quantity;
-      return totalPrice;
-    });
-    setTotal(totalPrice);
-  }, [orderItems]);
+
   const validate = Yup.object({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
@@ -77,13 +104,13 @@ const CheckOut = () => {
           <div className="font-semibold mb-4">BILLING ADDRESS</div>
           <Formik
             initialValues={{
-              firstName: "",
-              lastName: "",
+              firstName: user.firstName,
+              lastName: user.lastName,
               country: "",
               state: "",
-              city: "aaa",
+              city: "",
               address: "",
-              phoneNumber: "",
+              phoneNumber: user.phoneNumber,
             }}
             validationSchema={validate}
             onSubmit={(values) => {

@@ -114,6 +114,8 @@ const Cart = () => {
     const cart = [...carts];
     setCarts(cart.filter((item) => item.id !== cartItem.id));
     dispatch(removeCart(productCart));
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    window.location.reload();
   };
   const handleOrder = (cartItem) => {
     dispatch(listOrder(cartItem));

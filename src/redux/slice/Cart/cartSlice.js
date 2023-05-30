@@ -79,7 +79,7 @@ export const updateCart = createAsyncThunk(
 );
 export const removeCart = createAsyncThunk("removecart", async (body) => {
   const res = await fetch(
-    `https://onlineshophci.herokuapp.com/api/v1/delete-cart-item?cartItemID=${body.id}`,
+    `http://localhost:5000/api/v1/delete-cart-item?cartItemID=${body.id}`,
     {
       method: "DELETE",
       headers: {
@@ -91,15 +91,18 @@ export const removeCart = createAsyncThunk("removecart", async (body) => {
   return await res.json();
 });
 
-// export const createOrder = createAsyncThunk("createOrder", async (data, thunkAPI) => {
-//   try {
-//     const result = await api.post("/api/v1/add-cart-item", data);
-//     return result.data;
-//   } catch (error) {
-//     const errMessage = error.response.data.message;
-//     return thunkAPI.rejectWithValue(errMessage);
-//   }
-// });
+export const createOrder = createAsyncThunk(
+  "createOrder",
+  async (data, thunkAPI) => {
+    try {
+      const result = await api.post("/api/v1/post-order", data);
+      return result.data;
+    } catch (error) {
+      const errMessage = error.response.data.message;
+      return thunkAPI.rejectWithValue(errMessage);
+    }
+  }
+);
 export const payOrder = createAsyncThunk("payorder", async (body) => {
   const res = await fetch("http://localhost:5000/api/cart/order", {
     method: "POST",
@@ -125,32 +128,6 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    mergeInfo(state, { payload }) {
-      let order = [];
-      order = state.orderItems.map((item) => {
-        return {
-          ...item,
-          fullname: payload.fullname,
-          emailOrder: payload.emailOrder,
-          phone: payload.phone,
-          address: payload.address,
-        };
-      });
-      state.orderItems = [...order];
-      localStorage.setItem("orderItems", JSON.stringify(order));
-    },
-    mergeMethod(state, { payload }) {
-      let order = [];
-      order = state.orderItems.map((item) => {
-        return {
-          ...item,
-          deliveryMethod: payload.ship,
-          paymentMethod: payload.pay,
-        };
-      });
-      state.orderItems = [...order];
-      localStorage.setItem("orderItems", JSON.stringify(order));
-    },
     listOrder(state, { payload }) {
       if (state.orderItems) {
         state.orderItems = [];
@@ -311,7 +288,7 @@ const cartSlice = createSlice({
     },
     [removeCart.fulfilled]: (state, { payload }) => {
       if (payload.message === "success") {
-        toast.success("Sản phẩm đã được thêm vào giỏ", {
+        toast.success("Deleted product", {
           position: "bottom-left",
         });
       }
@@ -321,16 +298,15 @@ const cartSlice = createSlice({
       state.message = payload.message;
     },
     //creatOrder
-    [payOrder.pending]: (state, action) => {
+    [createOrder.pending]: (state, action) => {
       state.loading = true;
     },
-    [payOrder.fulfilled]: (state, { payload }) => {
-      state.check = payload.checked;
+    [createOrder.fulfilled]: (state, { payload }) => {
+      // state.check = payload.checked;
       state.loading = false;
     },
-    [payOrder.rejected]: (state, { payload }) => {
+    [createOrder.rejected]: (state, { payload }) => {
       state.loading = true;
-      state.checked = payload.checked;
     },
     //paypal
     [paypal.pending]: (state, action) => {
